@@ -1,0 +1,169 @@
+# ==============================================================================
+# Git Ignore Configuration - UrjaMitra AI
+# Target: Python (FastAPI/LangGraph), Terraform, Kubernetes, Docker & Local Dev
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Python & Bytecode
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ------------------------------------------------------------------------------
+# 2. Virtual Environments
+# ------------------------------------------------------------------------------
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+.conda/
+
+# ------------------------------------------------------------------------------
+# 3. Environment Variables & Secrets
+# ------------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.crt
+id_rsa
+id_rsa.pub
+secrets.yaml
+!k8s/configmap-secrets.yaml
+
+# ------------------------------------------------------------------------------
+# 4. Testing, Linting & Coverage
+# ------------------------------------------------------------------------------
+.pytest_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+htmlcov/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+
+# ------------------------------------------------------------------------------
+# 5. Terraform & Infrastructure as Code
+# ------------------------------------------------------------------------------
+# Local .terraform directories
+**/.terraform/*
+.terraform/
+.terraform.lock.hcl
+
+# State files & backups
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Exclude all .tfvars files as they are likely to contain sensitive data
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI configuration files
+.terraformrc
+terraform.rc
+
+# Terraform plan execution files
+tfplan*
+*.tfplan
+
+# ------------------------------------------------------------------------------
+# 6. Docker & Local Data Mounts
+# ------------------------------------------------------------------------------
+# Persistent storage volumes from local Docker runs
+data/
+pg_data/
+postgres_data/
+redis_data/
+minio_data/
+*.db
+*.sqlite
+*.sqlite3
+
+# ------------------------------------------------------------------------------
+# 7. IDE & Editor Artifacts
+# ------------------------------------------------------------------------------
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.swp
+*.swo
+*~
+
+# ------------------------------------------------------------------------------
+# 8. Operating System Specific
+# ------------------------------------------------------------------------------
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+
+# ------------------------------------------------------------------------------
+# 9. Logs & Temporary Runtime Files
+# ------------------------------------------------------------------------------
+*.log
+logs/
+temp/
+tmp/
+*.tmp

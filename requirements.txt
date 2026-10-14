@@ -1,0 +1,37 @@
+# Core Framework & ASGI Server
+fastapi==0.115.0
+uvicorn[standard]==0.31.0
+pydantic==2.9.2
+pydantic-settings==2.5.2
+
+# Database & ORM
+SQLAlchemy==2.0.35
+asyncpg==0.29.0
+alembic==1.13.3
+psycopg2-binary==2.9.9
+
+# Caching, Queuing & Async State
+redis==5.1.0
+celery==5.4.0
+
+# Multi-Agent Framework & LLM Tooling
+langgraph==0.2.34
+langchain-core==0.3.7
+httpx==0.27.2
+
+# Multimodal Vision & OCR
+pillow==10.4.0
+pytesseract==0.3.13
+
+# Cloud Storage & Connectors
+boto3==1.35.34
+
+# Security & Cryptography
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.12
+
+# Testing & Load Simulation
+pytest==8.3.3
+pytest-asyncio==0.24.0
+locust==2.31.6

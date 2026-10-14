@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Business Requirements Document (BRD) - UrjaMitra AI</title>
+<style>
+  @page {
+    size: A4;
+    margin: 16mm 14mm 16mm 14mm;
+  }
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background-color: #ffffff;
+    line-height: 1.5;
+    font-size: 9.5pt;
+    margin: 0;
+    padding: 0;
+  }
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+  .avoid-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Author Identity Block */
+  .author-header {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .author-header .author-name {
+    font-size: 14pt;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: #ffffff;
+  }
+  .author-header .author-title {
+    font-size: 9.5pt;
+    color: #93c5fd;
+    margin-top: 2px;
+  }
+  .author-header .company-badge {
+    text-align: right;
+  }
+  .author-header .company-name {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #38bdf8;
+  }
+  .author-header .experience-badge {
+    font-size: 8.5pt;
+    background: rgba(255,255,255,0.12);
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 4px;
+    color: #e2e8f0;
+  }
+
+  /* Document Title & Topic Block */
+  .doc-title-block {
+    border-bottom: 2px solid #2563eb;
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+  }
+  .doc-type {
+    font-size: 8.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #2563eb;
+  }
+  .doc-title {
+    font-size: 20pt;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 4px 0 6px 0;
+    line-height: 1.2;
+  }
+  .doc-subtitle {
+    font-size: 11pt;
+    color: #475569;
+    font-weight: 500;
+  }
+
+  /* Meta Cards Grid */
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .meta-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px 12px;
+  }
+  .meta-card .label {
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    color: #64748b;
+    font-weight: 600;
+  }
+  .meta-card .value {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #0f172a;
+    margin-top: 2px;
+  }
+
+  /* Section Headings */
+  h1 {
+    font-size: 13pt;
+    color: #0f172a;
+    border-bottom: 1.5px solid #e2e8f0;
+    padding-bottom: 4px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  h2 {
+    font-size: 11pt;
+    color: #1e293b;
+    margin-top: 14px;
+    margin-bottom: 6px;
+  }
+  h3 {
+    font-size: 10pt;
+    color: #2563eb;
+    margin-top: 10px;
+    margin-bottom: 4px;
+  }
+  p {
+    margin: 0 0 8px 0;
+    text-align: justify;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 8.5pt;
+  }
+  th {
+    background-color: #0f172a;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 6px 10px;
+    text-align: left;
+    border: 1px solid #0f172a;
+  }
+  td {
+    padding: 6px 10px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td {
+    background-color: #f8fafc;
+  }
+
+  /* Callout Cards */
+  .callout {
+    background: #f8fafc;
+    border-left: 3.5px solid #2563eb;
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    margin: 12px 0;
+    border-top: 1px solid #e2e8f0;
+    border-right: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .callout.alert-emerald {
+    border-left-color: #059669;
+    background: #f0fdf4;
+  }
+  .callout.alert-amber {
+    border-left-color: #d97706;
+    background: #fffbeb;
+  }
+  .callout-title {
+    font-weight: 700;
+    font-size: 9pt;
+    margin-bottom: 4px;
+    color: #0f172a;
+  }
+
+  /* Formula Block */
+  .formula-box {
+    background: #f1f5f9;
+    border: 1px dashed #94a3b8;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-family: "Courier New", monospace;
+    font-size: 9pt;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 8px 0;
+    text-align: center;
+  }
+
+  /* Footer */
+  .doc-footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 8px;
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 7.5pt;
+    color: #64748b;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Author Identity Block -->
+  <div class="author-header">
+    <div>
+      <div class="author-name">Dandothkar Manik Prabhu</div>
+      <div class="author-title">Senior Marketing and Delivery Manager</div>
+    </div>
+    <div class="company-badge">
+      <div class="company-name">Digio Click (DJOClick)</div>
+      <div class="experience-badge">Experience: 5.4 Years (Enterprise B2B & Solutions)</div>
+    </div>
+  </div>
+
+  <!-- Document Title & Topic Block -->
+  <div class="doc-title-block">
+    <div class="doc-type">Business Requirements Document (BRD)</div>
+    <div class="doc-title">UrjaMitra AI (ఉర్జామిత్ర)</div>
+    <div class="doc-subtitle">Agentic Personalized Billing & Consumer Copilot for TGSPDCL & TGNPDCL</div>
+  </div>
+
+  <!-- Meta Information Grid -->
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">Initiative</div>
+      <div class="value">AIKAM EnergyTech Challenge</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">Target DISCOMs</div>
+      <div class="value">TGSPDCL & TGNPDCL</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">Problem Statement ID</div>
+      <div class="value">885fa752 (Billing Assistance)</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">Date & Status</div>
+      <div class="value">October 2026 | Approved Baseline</div>
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <h1>1. Executive Summary & Program Context</h1>
+  <p>
+    The Government of Telangana, in collaboration with AIKAM and the Department of Energy, has launched the EnergyTech Innovation Challenge to deploy transformative artificial intelligence across the state’s electricity distribution utilities: <strong>TGSPDCL</strong> (Telangana Southern Power Distribution Company Limited) and <strong>TGNPDCL</strong> (Telangana Northern Power Distribution Company Limited).
+  </p>
+  <p>
+    Across more than <strong>1.75 Crore (17.5 Million)</strong> registered electricity connections in Telangana, billing inquiries, tariff slab confusion, Gruha Jyothi subsidy status questions, and meter reading disputes account for over <strong>68% of all inbound citizen calls</strong> to the <code>1912</code> utility hotline and section customer care offices.
+  </p>
+
+  <div class="callout alert-emerald">
+    <div class="callout-title">The UrjaMitra AI Mission</div>
+    <strong>UrjaMitra AI</strong> is an autonomous, multi-agent conversational and billing copilot engineered specifically for Telangana power utilities. It bridges the communication gap between complex regulatory tariff orders (TGERC slabs, Gruha Jyothi zero-bill eligibility, fuel surcharge adjustments) and citizens across urban, peri-urban, and rural Telangana via <strong>WhatsApp, Web, and Voice in Telugu, Hindi, and English</strong>.
+  </div>
+
+  <!-- Section 2 -->
+  <h1>2. Deep Topic Indexing Matrix</h1>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:12%">Topic ID</th>
+        <th style="width:30%">Requirement Area</th>
+        <th style="width:20%">Scope Category</th>
+        <th style="width:22%">Stakeholder Lead</th>
+        <th style="width:16%">Target Phase</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>BRD-01</code></td>
+        <td>Executive Problem & Tariff Friction</td>
+        <td>Core Business Context</td>
+        <td>Solutions Lead (M. Prabhu)</td>
+        <td>Phase 1 (Immersion)</td>
+      </tr>
+      <tr>
+        <td><code>BRD-02</code></td>
+        <td>Stakeholder Personas & Journey Maps</td>
+        <td>User Experience & Ops</td>
+        <td>Delivery Lead</td>
+        <td>Phase 1 (Immersion)</td>
+      </tr>
+      <tr>
+        <td><code>BRD-03</code></td>
+        <td>Quantitative Business Value & ROI</td>
+        <td>Utility FinOps</td>
+        <td>Solutions Lead</td>
+        <td>Phase 1 (Immersion)</td>
+      </tr>
+      <tr>
+        <td><code>BRD-04</code></td>
+        <td>Functional Scope (Agents 1 through 4)</td>
+        <td>Agentic Product Engine</td>
+        <td>Product Architect</td>
+        <td>Phase 2 (Oct 11)</td>
+      </tr>
+      <tr>
+        <td><code>BRD-05</code></td>
+        <td>Regulatory & TGERC Compliance</td>
+        <td>Governance & Legal</td>
+        <td>Domain Expert</td>
+        <td>Phase 2 (Oct 11)</td>
+      </tr>
+      <tr>
+        <td><code>BRD-06</code></td>
+        <td>Integration with DISCOM SAP Systems</td>
+        <td>Enterprise Architecture</td>
+        <td>SAP Systems Lead</td>
+        <td>Phase 3 (Oct 14)</td>
+      </tr>
+      <tr>
+        <td><code>BRD-07</code></td>
+        <td>Non-Functional Specs & DPDP Act 2023</td>
+        <td>Security & Reliability</td>
+        <td>DevSecOps Lead</td>
+        <td>Phase 3 (Oct 14)</td>
+      </tr>
+      <tr>
+        <td><code>BRD-08</code></td>
+        <td>Pilot Rollout (Circles & Feeders)</td>
+        <td>Operational Rollout</td>
+        <td>Program Manager</td>
+        <td>Phase 4 (Oct 25 Demo)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-break"></div>
+
+  <!-- Section 3 -->
+  <h1>3. Problem Statement & Root Cause Analysis</h1>
+  
+  <h3>1. Telescopic Slab Transitions & Citizen Bill Shock</h3>
+  <p>
+    Telangana domestic LT Category-I billing operates under telescopic slab rates with consumption brackets: Band A (0–100 kWh), Band B (101–200 kWh), and Band C (>200 kWh). Crossing even 1 single unit from Band B (199 units) to Band C (201 units) transitions the entire base energy calculation into higher per-unit rates, accompanied by sharp escalation in monthly customer charges. Citizens perceive this as an arbitrary meter jump.
+  </p>
+
+  <h3>2. Gruha Jyothi 200-Unit Cliff Edge</h3>
+  <p>
+    Under the flagship <strong>Gruha Jyothi Scheme</strong>, eligible domestic consumers consuming &le; 200 units receive a <strong>Zero Bill</strong> (100% state subsidy). If consumption hits 201 units, the subsidy is nullified or significantly curtailed under government rules, triggering a sudden ₹1,000+ bill. Citizens flood MeeSeva centers and DISCOM offices seeking answers.
+  </p>
+
+  <h3>3. Door Lock (Status 02) & Average Billing Accumulations</h3>
+  <p>
+    When physical meter readers encounter locked gates or damaged optical sensors, the utility billing engine records "Average Billing" (Status 02). In subsequent months, when an actual meter reading is performed, the accumulated multi-month consumption pushes the consumer into the highest tariff tier (₹10–11/unit), creating severe dispute escalations.
+  </p>
+
+  <!-- Section 4 -->
+  <h1>4. Stakeholder Personas & Interaction Models</h1>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:20%">Persona</th>
+        <th style="width:22%">Role</th>
+        <th style="width:28%">Primary Pain Point</th>
+        <th style="width:30%">UrjaMitra AI Value Proposition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Citizen (Urban / Rural)</strong></td>
+        <td>Electricity Consumer (LT-I / LT-II)</td>
+        <td>Confused by slab calculations, speaks Telugu/Hindi, fears meter tampering fraud.</td>
+        <td>Instant Telugu voice/WhatsApp explanation, line-by-line slab breakdown, advice on staying under 200 units.</td>
+      </tr>
+      <tr>
+        <td><strong>1912 Call Center Agent</strong></td>
+        <td>DISCOM Customer Support</td>
+        <td>Handles 150+ repetitive calls daily with 8-minute handle times; high burnout.</td>
+        <td>Deflects 65% of routine queries autonomously; receives pre-validated dispute tickets for the rest.</td>
+      </tr>
+      <tr>
+        <td><strong>Section Officer (AAE / ADE)</strong></td>
+        <td>Field Operations Engineer</td>
+        <td>Overwhelmed by paper dispute files and meter re-reading requests.</td>
+        <td>Receives OCR meter verification packages with photo proof directly in SAP IS-U queue.</td>
+      </tr>
+      <tr>
+        <td><strong>CGM (Commercial / Revenue)</strong></td>
+        <td>TG-DISCOM Revenue Head</td>
+        <td>Delayed collections, escrow reconciliations, high cost-to-serve, consumer distrust.</td>
+        <td>Boosts collection efficiency by 4.2%, slashes dispute cycle from 18 days to 2 hours.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Section 5 -->
+  <h1>5. Quantitative Business Case & ROI Metrics</h1>
+  <div class="formula-box">
+    Annual Utility Savings = Savings(Call Center) + Savings(Field Visits) + Savings(Early Liquidity) - Opex(UrjaMitra)
+  </div>
+
+  <p><strong>1. Call Center Cost Reduction (1912 Hotline):</strong></p>
+  <p>
+    TGSPDCL and TGNPDCL receive approximately 420,000 billing inquiries monthly across 1912 and circle offices. Average cost per human resolution: <strong>₹14.50</strong>. With UrjaMitra AI deflecting 65% (273,000 queries deflected), the monthly savings equal:
+    <br>
+    <strong>273,000 &times; ₹14.50 = ₹39.58 Lakhs / month (&approx; ₹4.75 Crores annually)</strong>.
+  </p>
+
+  <p><strong>2. Field Re-reading & Dispute Visit Elimination:</strong></p>
+  <p>
+    18,000 monthly field inspection tickets dispatched for disputed meter readings (costing ₹85 per engineer visit). With Multimodal Meter OCR resolving 70% of photo disputes instantly, the utility saves:
+    <br>
+    <strong>12,600 &times; ₹85 = ₹10.71 Lakhs / month (&approx; ₹1.28 Crores annually)</strong>.
+  </p>
+
+  <p><strong>3. Working Capital & Cash Realization:</strong></p>
+  <p>
+    Bill clarity and transparent True-Up explanations reduce dispute holding periods by 12 days, accelerating utility operating liquidity by <strong>₹18+ Crores</strong>.
+  </p>
+
+  <div class="page-break"></div>
+
+  <!-- Section 6 -->
+  <h1>6. Functional Requirements Breakdown</h1>
+
+  <div class="callout">
+    <div class="callout-title">FR-1: Telescopic Slab Deconstruction Engine</div>
+    Ingests Unique Service Number (USC No) or bill amount and itemizes Energy Charges per bracket (0–100, 101–200, 201–300, 301–400, >400 units), Fixed Charges, Customer Charges, and Electricity Duty. For Gruha Jyothi consumers, clearly highlights zero-bill subsidy grant and exact units remaining before crossing the 200-unit threshold.
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">FR-2: Multimodal Bill & Meter Vision OCR</div>
+    Accepts physical paper bill photos, PDFs, and live meter display photos. Extracts USC No, Billing Date, Previous Reading, Present Reading, and Status (01 Normal, 02 Door Lock). Automatically compares live consumer meter photos against billed values to identify Average Billing errors.
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">FR-3: Multilingual Vernacular Voice & Chat Copilot</div>
+    Native support in <strong>Telugu (తెలుగు)</strong>, <strong>Hindi (हिन्दी)</strong>, and <strong>English</strong>. Handles regional accents and mixed Telugu-English phrasing. Delivers conversational responses via Web, WhatsApp Business Cloud API, and 1912 IVR voice bridge.
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">FR-4: Proactive Consumption & Spike Advisory</div>
+    Clusters consumption into Time-of-Day (ToD) buckets and alerts consumers before they breach subsidy slabs (e.g., <em>"You used 188 units with 4 days remaining. Staying under 200 units saves ₹1,200 under Gruha Jyothi"</em>). Includes PM Surya Ghar rooftop solar ROI calculations.
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">FR-5: Automated Dispute Resolution & SAP Ticket Agent</div>
+    Calculates provisional revised bills for verified anomalies, packages cryptographic evidence (image hash, OCR confidence, timestamp), and posts directly into the TGSPDCL/TGNPDCL SAP IS-U complaint queue with human-in-the-loop Section Officer approval.
+  </div>
+
+  <!-- Section 7 -->
+  <h1>7. Regulatory Compliance & DPDP Act 2023</h1>
+  <p>
+    <strong>TGERC Retail Supply Tariff Alignment:</strong> All calculation engines are bound strictly to the latest Telangana State Electricity Regulatory Commission (TGERC) Gazette notifications. No LLM hallucinations are permitted in monetary amounts.
+  </p>
+  <p>
+    <strong>Digital Personal Data Protection (DPDP) Act 2023:</strong> Full adherence to citizen privacy laws. Consumer identifiers, phone numbers, and bank details are encrypted using AES-256 at rest and masked in analytical logs. Compute and storage reside exclusively in MeitY-empanelled data centers in India.
+  </p>
+
+  <!-- Section 8 -->
+  <h1>8. Key Performance Indicators (KPIs)</h1>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:35%">Metric Name</th>
+        <th style="width:20%">Current Baseline</th>
+        <th style="width:25%">Target with UrjaMitra AI</th>
+        <th style="width:20%">Full State Target</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>First-Contact Resolution (FCR)</td>
+        <td>32%</td>
+        <td><strong>78%</strong></td>
+        <td>88%</td>
+      </tr>
+      <tr>
+        <td>Average Dispute Resolution Cycle</td>
+        <td>14 to 21 Days</td>
+        <td><strong>&lt; 4 Hours</strong></td>
+        <td>&lt; 2 Minutes</td>
+      </tr>
+      <tr>
+        <td>Vernacular Adoption (Telugu/Hindi)</td>
+        <td>12% (Web)</td>
+        <td><strong>&gt; 70% (WhatsApp/Voice)</strong></td>
+        <td>&gt; 85%</td>
+      </tr>
+      <tr>
+        <td>1912 Hotline Deflection Rate</td>
+        <td>0%</td>
+        <td><strong>65% Deflection</strong></td>
+        <td>75% Deflection</td>
+      </tr>
+      <tr>
+        <td>Consumer CSAT Score</td>
+        <td>2.1 / 5.0</td>
+        <td><strong>4.3 / 5.0</strong></td>
+        <td>4.6 / 5.0</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Running Footer -->
+  <div class="doc-footer">
+    <div><strong>UrjaMitra AI</strong> &bull; Manik Prabhu | Digio Click</div>
+    <div>AIKAM EnergyTech Challenge 2026 &bull; Page 3 of 3</div>
+  </div>
+
+</body>
+</html>

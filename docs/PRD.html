@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Product Requirements Document (PRD) - UrjaMitra AI</title>
+<style>
+  @page {
+    size: A4;
+    margin: 16mm 14mm 16mm 14mm;
+  }
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background-color: #ffffff;
+    line-height: 1.48;
+    font-size: 9pt;
+    margin: 0;
+    padding: 0;
+  }
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+
+  /* Author Header */
+  .author-header {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .author-header .author-name {
+    font-size: 14pt;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: #ffffff;
+  }
+  .author-header .author-title {
+    font-size: 9.5pt;
+    color: #93c5fd;
+    margin-top: 2px;
+  }
+  .author-header .company-badge {
+    text-align: right;
+  }
+  .author-header .company-name {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #38bdf8;
+  }
+  .author-header .experience-badge {
+    font-size: 8.5pt;
+    background: rgba(255,255,255,0.12);
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 4px;
+    color: #e2e8f0;
+  }
+
+  /* Doc Title */
+  .doc-title-block {
+    border-bottom: 2px solid #2563eb;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+  .doc-type {
+    font-size: 8.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #2563eb;
+  }
+  .doc-title {
+    font-size: 20pt;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 4px 0 6px 0;
+    line-height: 1.2;
+  }
+  .doc-subtitle {
+    font-size: 10.5pt;
+    color: #475569;
+    font-weight: 500;
+  }
+
+  /* Meta Cards Grid */
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .meta-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px 12px;
+  }
+  .meta-card .label {
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    color: #64748b;
+    font-weight: 600;
+  }
+  .meta-card .value {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #0f172a;
+    margin-top: 2px;
+  }
+
+  /* Headings */
+  h1 {
+    font-size: 12.5pt;
+    color: #0f172a;
+    border-bottom: 1.5px solid #e2e8f0;
+    padding-bottom: 4px;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  h2 {
+    font-size: 10.5pt;
+    color: #1e293b;
+    margin-top: 12px;
+    margin-bottom: 4px;
+  }
+  h3 {
+    font-size: 9.5pt;
+    color: #2563eb;
+    margin-top: 8px;
+    margin-bottom: 3px;
+  }
+  p {
+    margin: 0 0 6px 0;
+    text-align: justify;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 8pt;
+  }
+  th {
+    background-color: #0f172a;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 6px 8px;
+    text-align: left;
+    border: 1px solid #0f172a;
+  }
+  td {
+    padding: 5px 8px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td {
+    background-color: #f8fafc;
+  }
+
+  /* Code / Pre blocks */
+  pre {
+    background: #0f172a;
+    color: #f8fafc;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-family: "Courier New", monospace;
+    font-size: 7.8pt;
+    line-height: 1.4;
+    overflow-x: auto;
+    margin: 8px 0;
+  }
+  code {
+    background: #f1f5f9;
+    color: #0f172a;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 8pt;
+    font-family: monospace;
+  }
+
+  /* Callouts */
+  .callout {
+    background: #f8fafc;
+    border-left: 3.5px solid #2563eb;
+    padding: 8px 12px;
+    border-radius: 0 6px 6px 0;
+    margin: 10px 0;
+    border-top: 1px solid #e2e8f0;
+    border-right: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .callout-title {
+    font-weight: 700;
+    font-size: 8.5pt;
+    margin-bottom: 3px;
+    color: #0f172a;
+  }
+
+  /* Architecture Box */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 10px 0;
+  }
+  .arch-box {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 8px;
+    text-align: center;
+  }
+  .arch-box-title {
+    font-size: 8pt;
+    font-weight: 700;
+    color: #2563eb;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .arch-box-content {
+    font-size: 7.5pt;
+    color: #475569;
+  }
+
+  /* Footer */
+  .doc-footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 6px;
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 7.5pt;
+    color: #64748b;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Author Identity Block -->
+  <div class="author-header">
+    <div>
+      <div class="author-name">Dandothkar Manik Prabhu</div>
+      <div class="author-title">Senior Marketing and Delivery Manager</div>
+    </div>
+    <div class="company-badge">
+      <div class="company-name">Digio Click (DJOClick)</div>
+      <div class="experience-badge">Experience: 5.4 Years (Enterprise B2B & Solutions)</div>
+    </div>
+  </div>
+
+  <!-- Document Title & Topic Block -->
+  <div class="doc-title-block">
+    <div class="doc-type">Product Requirements Document (PRD)</div>
+    <div class="doc-title">UrjaMitra AI (ఉర్జామిత్ర)</div>
+    <div class="doc-subtitle">Technical Architecture, Multi-Agent Engine & System Specifications</div>
+  </div>
+
+  <!-- Meta Information Grid -->
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">Initiative</div>
+      <div class="value">AIKAM EnergyTech Challenge</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">Problem Statement</div>
+      <div class="value">885fa752 (Billing Assistance)</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">Core Framework</div>
+      <div class="value">LangGraph + FastAPI + Python</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">Date & Status</div>
+      <div class="value">October 2026 | Tech Baseline</div>
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <h1>1. Product Overview & Architectural Axiom</h1>
+  <p>
+    <strong>UrjaMitra AI</strong> is an enterprise-grade, distributed multi-agent conversational copilot engineered for Telangana power utilities (TGSPDCL and TGNPDCL). It automates personalized electricity bill explanation, decodes telescopic tariff brackets, verifies meter reading photos, and provides seamless dispute resolution in Telugu, Hindi, and English.
+  </p>
+
+  <div class="callout">
+    <div class="callout-title">Architectural Axiom: Zero-Hallucination Deterministic Engine</div>
+    In government utility billing, LLM hallucination on monetary sums is strictly intolerable. UrjaMitra AI enforces a strict separation:
+    <strong>Natural Language Understanding</strong> is performed by LLM agents via LangGraph; whereas <strong>Billing Arithmetic & Tariff Calculation</strong> is executed exclusively by a <strong>100% deterministic Python TGERC Tariff Engine</strong> implementing gazette formulas.
+  </div>
+
+  <!-- Architecture Visualizer -->
+  <h1>2. Full-Stack System Architecture</h1>
+  <div class="arch-grid">
+    <div class="arch-box">
+      <div class="arch-box-title">Ingestion Layer</div>
+      <div class="arch-box-content">
+        WhatsApp Business API<br>
+        Web & Mobile Responsive UI<br>
+        1912 Voice Telephony Bridge<br>
+        DISCOM Officer Portal
+      </div>
+    </div>
+    <div class="arch-box">
+      <div class="arch-box-title">Agentic Brain</div>
+      <div class="arch-box-content">
+        LangGraph Supervisor<br>
+        Agent 1: Slab Deconstructor<br>
+        Agent 2: OCR Meter Audit<br>
+        Agent 3: Spike & Solar Advisor<br>
+        Agent 4: SAP Dispute Ticket
+      </div>
+    </div>
+    <div class="arch-box">
+      <div class="arch-box-title">Deterministic Core</div>
+      <div class="arch-box-content">
+        Python TGERC Tariff Engine<br>
+        Gruha Jyothi Subsidy Rule<br>
+        Provisional Bill Adjuster<br>
+        Hourly Load Analyzer
+      </div>
+    </div>
+    <div class="arch-box">
+      <div class="arch-box-title">Data & Integrations</div>
+      <div class="arch-box-content">
+        PostgreSQL 16 (ACID DB)<br>
+        pgvector / Qdrant (RAG)<br>
+        Redis Cluster (Cache)<br>
+        TGSPDCL SAP IS-U BAPI
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <h1>3. Deep Topic Indexing Matrix</h1>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:12%">Topic ID</th>
+        <th style="width:28%">Component Specification</th>
+        <th style="width:18%">Scope Category</th>
+        <th style="width:24%">System Owner</th>
+        <th style="width:18%">Technical Deliverable</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>PRD-01</code></td>
+        <td>Architecture Tiers & Clean Design</td>
+        <td>Full-Stack Core</td>
+        <td>Solutions Architect</td>
+        <td>Microservices Blueprint</td>
+      </tr>
+      <tr>
+        <td><code>PRD-02</code></td>
+        <td>Multi-Agent Orchestration</td>
+        <td>Agentic Framework</td>
+        <td>AI/ML Lead</td>
+        <td>LangGraph State Engine</td>
+      </tr>
+      <tr>
+        <td><code>PRD-03</code></td>
+        <td>Deterministic TGERC Tariff Engine</td>
+        <td>Core Algorithm</td>
+        <td>Backend Engineer</td>
+        <td>Python Tariff Math Module</td>
+      </tr>
+      <tr>
+        <td><code>PRD-04</code></td>
+        <td>Multimodal OCR & Meter Vision</td>
+        <td>Vision Ingestion</td>
+        <td>CV Engineer</td>
+        <td>Digit & Bill Parser</td>
+      </tr>
+      <tr>
+        <td><code>PRD-05</code></td>
+        <td>Multilingual Vernacular UX</td>
+        <td>Frontend & Speech</td>
+        <td>UI/UX & Voice Lead</td>
+        <td>Telugu/Hindi Web & Voice</td>
+      </tr>
+      <tr>
+        <td><code>PRD-06</code></td>
+        <td>Data Schemas & Persistence</td>
+        <td>Database & Cache</td>
+        <td>Data Architect</td>
+        <td>Postgres + Redis Schemas</td>
+      </tr>
+      <tr>
+        <td><code>PRD-07</code></td>
+        <td>SAP IS-U BAPI Connectors</td>
+        <td>Enterprise B2G</td>
+        <td>Integration Lead</td>
+        <td>REST/JSON CRM Gateway</td>
+      </tr>
+      <tr>
+        <td><code>PRD-08</code></td>
+        <td>FinOps & Token Economics</td>
+        <td>Cost Governance</td>
+        <td>Cloud FinOps Lead</td>
+        <td>Multi-tier Model Router</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-break"></div>
+
+  <!-- Section 4 -->
+  <h1>4. Detailed Agent Specifications (LangGraph)</h1>
+
+  <h3>Agent 1: Telescopic Slab Deconstructor</h3>
+  <p>
+    Decomposes confusing monthly bills into itemized brackets (0–100, 101–200, 201–300, 301–400, >400 units). Resolves the Gruha Jyothi subsidy calculation: if units &le; 200, applies zero-bill credit; if units > 200, explains the exact rupee variance factors in plain Telugu and English.
+  </p>
+
+  <h3>Agent 2: Multimodal Bill OCR & Meter Reading Audit</h3>
+  <p>
+    Ingests mobile camera photos of paper bills and live meter LCD screens. Applies perspective correction, extracts USC Number, Previous KWh, Present KWh, and Status (01 Normal, 02 Door Lock). Automatically calculates variance:
+    <code>Calculated Units = (Present - Previous) &times; MF</code>. If live meter photo shows reading lower than billed reading, flags Average Billing discrepancy.
+  </p>
+
+  <h3>Agent 3: Proactive Consumption & Spike Advisory</h3>
+  <p>
+    Segments consumption by Time-of-Day (Morning Peak, Solar Hours, Evening Peak, Night Baseload). Detects heatwave cooling spikes and calculates subsidy proximity: <code>Delta = 200 - Projected Units</code>. Provides actionable tips in local vernacular and computes rooftop solar feasibility under PM Surya Ghar Muft Bijli Yojana.
+  </p>
+
+  <h3>Agent 4: Autonomous Dispute Resolution & SAP Ticket Agent</h3>
+  <p>
+    Assembles cryptographic dispute evidence (image hash, OCR confidence, timestamp, difference delta). Automatically generates a <strong>Provisional Revised Bill</strong> according to TGERC guidelines and dispatches a structured JSON payload to the DISCOM SAP IS-U BAPI complaint queue with human-in-the-loop Section Officer sign-off.
+  </p>
+
+  <!-- Section 5 -->
+  <h1>5. Deterministic TGERC Tariff Engine Specification</h1>
+  <p>The Python tariff service implements exact Telangana Retail Supply Tariff Order rules:</p>
+  <pre>
+# Official TGERC LT-I Domestic Tariff Schedules
+Band A (Total Consumption <= 100 Units/Month):
+  - 0 to 50 Units:     ₹1.95 / Unit
+  - 51 to 100 Units:   ₹3.10 / Unit
+
+Band B (Total Consumption 101 to 200 Units/Month):
+  - 0 to 100 Units:    ₹3.40 / Unit
+  - 101 to 200 Units:  ₹4.80 / Unit
+
+Band C (Total Consumption > 200 Units/Month - Telescopic):
+  - 0 to 100 Units:    ₹5.10 / Unit       - 301 to 400 Units:  ₹9.50 / Unit
+  - 101 to 200 Units:  ₹7.70 / Unit       - 401 to 800 Units:  ₹10.00 / Unit
+  - 201 to 300 Units:  ₹9.00 / Unit       - Above 800 Units:   ₹11.00 / Unit
+
+Fixed Charges:     ₹10 - ₹15 per kW contracted load / month
+Customer Charges:  ₹40 to ₹80 / month based on consumption tier
+Electricity Duty:  ₹0.06 / unit billed
+Gruha Jyothi:      100% Subsidy Waiver if tagged eligible & consumption <= 200 Units
+  </pre>
+
+  <!-- Section 6 -->
+  <h1>6. LLM Token Economics & FinOps Cost Projections</h1>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:20%">Deployment Tier</th>
+        <th style="width:16%">Daily Active Users</th>
+        <th style="width:18%">Monthly Inquiries</th>
+        <th style="width:16%">Model Tier</th>
+        <th style="width:15%">Est. USD / Month</th>
+        <th style="width:15%">Est. INR / Month</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Pilot (1 Circle)</strong></td>
+        <td>1,500</td>
+        <td>45,000</td>
+        <td>Flash + Haiku</td>
+        <td>$38.50</td>
+        <td><strong>₹3,200</strong></td>
+      </tr>
+      <tr>
+        <td><strong>City Scale (Hyd)</strong></td>
+        <td>35,000</td>
+        <td>1,050,000</td>
+        <td>Tiered Routing</td>
+        <td>$890.00</td>
+        <td><strong>₹74,000</strong></td>
+      </tr>
+      <tr>
+        <td><strong>Full State Scale</strong></td>
+        <td>250,000</td>
+        <td>7,500,000</td>
+        <td>Cached Tiered</td>
+        <td>$6,350.00</td>
+        <td><strong>₹5,27,000</strong></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    *Prompt caching reduces system prompt token costs by up to 78%. Deterministic Python microservice executes all mathematics at zero LLM token cost.
+  </p>
+
+  <!-- Section 7 -->
+  <h1>7. AIKAM Milestone Execution Timeline</h1>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:18%">Date</th>
+        <th style="width:32%">Milestone Phase</th>
+        <th style="width:50%">Deliverable Artifacts</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>October 09, 2026</strong></td>
+        <td>Phase 1: Architecture Lock</td>
+        <td>Finalized BRD, PRD, and AIKAM Proposal Blueprint</td>
+      </tr>
+      <tr>
+        <td><strong>October 11, 2026</strong></td>
+        <td>Phase 2: Core Agentic Engine</td>
+        <td>Deterministic Tariff Engine + LangGraph backend + 500-Consumer synthetic testbed</td>
+      </tr>
+      <tr>
+        <td><strong>October 14, 2026</strong></td>
+        <td>Phase 3: Omnichannel UI Live</td>
+        <td>Telugu Web/WhatsApp UI + DISCOM Officer Command Center</td>
+      </tr>
+      <tr>
+        <td><strong>October 16, 2026</strong></td>
+        <td><strong>Immersion Day Review</strong></td>
+        <td>In-person demonstration of live bill deconstruction & SAP ticket generation</td>
+      </tr>
+      <tr>
+        <td><strong>October 24, 2026</strong></td>
+        <td>DevFest Hyderabad</td>
+        <td>Top 15 Finalists Announcement</td>
+      </tr>
+      <tr>
+        <td><strong>October 25, 2026</strong></td>
+        <td><strong>Innovation Day Finale</strong></td>
+        <td>Grand jury demo lock and presentation to Dept of Energy leadership</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Running Footer -->
+  <div class="doc-footer">
+    <div><strong>UrjaMitra AI</strong> &bull; Manik Prabhu | Digio Click</div>
+    <div>AIKAM EnergyTech Challenge 2026 &bull; Page 3 of 3</div>
+  </div>
+
+</body>
+</html>

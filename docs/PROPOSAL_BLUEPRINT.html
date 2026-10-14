@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AIKAM Proposal Blueprint & Pitch Strategy - UrjaMitra AI</title>
+<style>
+  @page {
+    size: A4;
+    margin: 16mm 14mm 16mm 14mm;
+  }
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background-color: #ffffff;
+    line-height: 1.48;
+    font-size: 9pt;
+    margin: 0;
+    padding: 0;
+  }
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+
+  /* Author Header */
+  .author-header {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .author-header .author-name {
+    font-size: 14pt;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: #ffffff;
+  }
+  .author-header .author-title {
+    font-size: 9.5pt;
+    color: #93c5fd;
+    margin-top: 2px;
+  }
+  .author-header .company-badge {
+    text-align: right;
+  }
+  .author-header .company-name {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #38bdf8;
+  }
+  .author-header .experience-badge {
+    font-size: 8.5pt;
+    background: rgba(255,255,255,0.12);
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 4px;
+    color: #e2e8f0;
+  }
+
+  /* Doc Title */
+  .doc-title-block {
+    border-bottom: 2px solid #2563eb;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+  .doc-type {
+    font-size: 8.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #2563eb;
+  }
+  .doc-title {
+    font-size: 20pt;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 4px 0 6px 0;
+    line-height: 1.2;
+  }
+  .doc-subtitle {
+    font-size: 10.5pt;
+    color: #475569;
+    font-weight: 500;
+  }
+
+  /* Meta Cards Grid */
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .meta-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px 12px;
+  }
+  .meta-card .label {
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    color: #64748b;
+    font-weight: 600;
+  }
+  .meta-card .value {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #0f172a;
+    margin-top: 2px;
+  }
+
+  /* Headings */
+  h1 {
+    font-size: 12.5pt;
+    color: #0f172a;
+    border-bottom: 1.5px solid #e2e8f0;
+    padding-bottom: 4px;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  h2 {
+    font-size: 10.5pt;
+    color: #1e293b;
+    margin-top: 12px;
+    margin-bottom: 4px;
+  }
+  h3 {
+    font-size: 9.5pt;
+    color: #2563eb;
+    margin-top: 8px;
+    margin-bottom: 3px;
+  }
+  p {
+    margin: 0 0 6px 0;
+    text-align: justify;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 8pt;
+  }
+  th {
+    background-color: #0f172a;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 6px 8px;
+    text-align: left;
+    border: 1px solid #0f172a;
+  }
+  td {
+    padding: 5px 8px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td {
+    background-color: #f8fafc;
+  }
+
+  /* Callouts */
+  .callout {
+    background: #f8fafc;
+    border-left: 3.5px solid #2563eb;
+    padding: 8px 12px;
+    border-radius: 0 6px 6px 0;
+    margin: 10px 0;
+    border-top: 1px solid #e2e8f0;
+    border-right: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .callout-title {
+    font-weight: 700;
+    font-size: 8.5pt;
+    margin-bottom: 3px;
+    color: #0f172a;
+  }
+
+  /* Slide Card */
+  .slide-box {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-left: 4px solid #0f172a;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin: 8px 0;
+  }
+  .slide-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 8.5pt;
+    color: #0f172a;
+    margin-bottom: 4px;
+  }
+  .slide-num {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 7.5pt;
+  }
+  .slide-content {
+    font-size: 8pt;
+    color: #334155;
+  }
+
+  /* Footer */
+  .doc-footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 6px;
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 7.5pt;
+    color: #64748b;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Author Identity Block -->
+  <div class="author-header">
+    <div>
+      <div class="author-name">Dandothkar Manik Prabhu</div>
+      <div class="author-title">Senior Marketing and Delivery Manager</div>
+    </div>
+    <div class="company-badge">
+      <div class="company-name">Digio Click (DJOClick)</div>
+      <div class="experience-badge">Experience: 5.4 Years (Enterprise B2B & Solutions)</div>
+    </div>
+  </div>
+
+  <!-- Document Title & Topic Block -->
+  <div class="doc-title-block">
+    <div class="doc-type">Official Proposal Blueprint & Pitch Strategy</div>
+    <div class="doc-title">UrjaMitra AI (ఉర్జామిత్ర)</div>
+    <div class="doc-subtitle">AIKAM EnergyTech Challenge &bull; TGSPDCL & TGNPDCL Department of Energy Selection</div>
+  </div>
+
+  <!-- Meta Information Grid -->
+  <div class="meta-grid">
+    <div class="meta-card">
+      <div class="label">Challenge</div>
+      <div class="value">AIKAM EnergyTech 2026</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">Key Deadlines</div>
+      <div class="value">Oct 16 (Immersion) / Oct 25 (Demo)</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">Incentives</div>
+      <div class="value">₹36-39L Pool + TG-DISCOM Pilot</div>
+    </div>
+    <div class="meta-card">
+      <div class="label">IP Ownership</div>
+      <div class="value">100% Retained by Team</div>
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <h1>1. Executive Summary & Strategic Positioning</h1>
+  <p>
+    The AIKAM EnergyTech Innovation Challenge brings together the Government of Telangana, the Department of Energy, and state utilities TGSPDCL and TGNPDCL. The competition evaluates technology solutions capable of solving immediate operational bottlenecks across 1.75 Crore power connections in Telangana.
+  </p>
+  <div class="callout">
+    <div class="callout-title">The Three Winning Pillars of UrjaMitra AI</div>
+    <strong>1. Zero-Hallucination Architecture:</strong> Absolute guarantee of monetary accuracy. LLMs handle dialogue; a deterministic Python engine calculates official TGERC slab rates.<br>
+    <strong>2. Telugu-First Vernacular Inclusion:</strong> True voice and chat accessibility in Telangana Telugu dialects for rural, urban, and agricultural consumers.<br>
+    <strong>3. Closed-Loop Enterprise Resolution:</strong> Solves disputes on the spot by generating pre-validated SAP IS-U tickets with meter photo evidence, eliminating paper files.
+  </div>
+
+  <!-- Section 2 -->
+  <h1>2. Jury Alignment: How to Win Each Stakeholder Profile</h1>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:25%">Stakeholder Profile</th>
+        <th style="width:35%">What They Are Evaluating</th>
+        <th style="width:40%">UrjaMitra AI Winning Response</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Department of Energy IAS Leadership</strong></td>
+        <td>Citizen satisfaction, rural outreach, seamless Gruha Jyothi 200-unit subsidy governance.</td>
+        <td>Demonstrate Telugu voice notes and real-time alerts warning citizens before they cross subsidy thresholds.</td>
+      </tr>
+      <tr>
+        <td><strong>TGSPDCL / TGNPDCL Directors & Engineers</strong></td>
+        <td>Zero math errors, reduction in 1912 call center costs, SAP IS-U compatibility.</td>
+        <td>Prove the deterministic Python calculation engine and show pre-audited dispute tickets with photo proofs.</td>
+      </tr>
+      <tr>
+        <td><strong>IIIT-H Professors & AI Researchers</strong></td>
+        <td>Scalable agentic systems, multimodal OCR accuracy, vernacular speech models.</td>
+        <td>Highlight LangGraph DAG state machines, prompt caching FinOps, and low-latency Telugu TTS/ASR.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-break"></div>
+
+  <!-- Section 3 -->
+  <h1>3. The 10-Slide Pitch Deck Blueprint</h1>
+
+  <div class="slide-box">
+    <div class="slide-header">
+      <span>Slide 1: Title & Executive Hook</span>
+      <span class="slide-num">SLIDE 01</span>
+    </div>
+    <div class="slide-content">
+      <strong>Headline:</strong> UrjaMitra AI (ఉర్జామిత్ర) — Transforming 1.75 Crore Telangana Bills from Confusion to Instant Clarity.<br>
+      <strong>Presenter:</strong> Dandothkar Manik Prabhu | Senior Marketing & Delivery Manager, Digio Click.
+    </div>
+  </div>
+
+  <div class="slide-box">
+    <div class="slide-header">
+      <span>Slide 2: The Core Crisis in Telangana Power Distribution</span>
+      <span class="slide-num">SLIDE 02</span>
+    </div>
+    <div class="slide-content">
+      68% of 1912 inbound calls are billing complaints. The "Gruha Jyothi 200-Unit Cliff": crossing 201 units causes subsidy loss and massive citizen bill shock.
+    </div>
+  </div>
+
+  <div class="slide-box">
+    <div class="slide-header">
+      <span>Slide 3: The Solution — UrjaMitra AI</span>
+      <span class="slide-num">SLIDE 03</span>
+    </div>
+    <div class="slide-content">
+      Omnichannel copilot on WhatsApp, Web, and 1912 Voice. Ingests paper bill photos, explains line-items in Telugu/Hindi/English, and prevents subsidy loss.
+    </div>
+  </div>
+
+  <div class="slide-box">
+    <div class="slide-header">
+      <span>Slide 4: Multi-Agent Architecture (LangGraph Powered)</span>
+      <span class="slide-num">SLIDE 04</span>
+    </div>
+    <div class="slide-content">
+      4 specialized agents: Slab Deconstructor, Multimodal Vision OCR Audit, Proactive Spike/Solar Advisor, and Autonomous SAP Dispute Ticket Agent.
+    </div>
+  </div>
+
+  <div class="slide-box">
+    <div class="slide-header">
+      <span>Slide 5: The Zero-Hallucination Engine</span>
+      <span class="slide-num">SLIDE 05</span>
+    </div>
+    <div class="slide-content">
+      Architectural diagram separating LLM intent recognition from the 100% deterministic Python TGERC Tariff Engine. Zero financial hallucinations.
+    </div>
+  </div>
+
+  <div class="slide-box">
+    <div class="slide-header">
+      <span>Slide 6: Live Product Walkthrough & Citizen Journey</span>
+      <span class="slide-num">SLIDE 06</span>
+    </div>
+    <div class="slide-content">
+      Visual demo: Citizen snaps photo of yellow bill via WhatsApp &rarr; receives Telugu voice breakdown &rarr; clicks 1-tap dispute if meter reading was misread.
+    </div>
+  </div>
+
+  <div class="slide-box">
+    <div class="slide-header">
+      <span>Slide 7: Utility Officer Command Center</span>
+      <span class="slide-num">SLIDE 07</span>
+    </div>
+    <div class="slide-content">
+      Executive dashboard for Section Officers (AAE/ADE): Circle dispute heatmaps, 78% First-Contact Resolution metrics, and 1-click dispute approvals.
+    </div>
+  </div>
+
+  <div class="slide-box">
+    <div class="slide-header">
+      <span>Slide 8: Measurable Business Case & State ROI</span>
+      <span class="slide-num">SLIDE 08</span>
+    </div>
+    <div class="slide-content">
+      ₹4.75 Cr annual savings on 1912 call centers; ₹1.28 Cr saved in field re-readings; ₹18+ Cr faster working capital cash collection.
+    </div>
+  </div>
+
+  <div class="slide-box">
+    <div class="slide-header">
+      <span>Slide 9: Team Credibility & Digio Click Unfair Advantage</span>
+      <span class="slide-num">SLIDE 09</span>
+    </div>
+    <div class="slide-content">
+      Hyderabad-based customer engagement & enterprise delivery powerhouse. 5.4+ Years specialized in B2B systems and agentic workflows.
+    </div>
+  </div>
+
+  <div class="slide-box">
+    <div class="slide-header">
+      <span>Slide 10: Pilot Roadmap (Immersion to 90-Day Deployment)</span>
+      <span class="slide-num">SLIDE 10</span>
+    </div>
+    <div class="slide-content">
+      Oct 16 Immersion Day &rarr; Oct 25 Demo Day &rarr; Month 1 Sandbox in 1 Circle &rarr; Month 2 50k WhatsApp Pilot &rarr; Month 3 Statewide Rollout.
+    </div>
+  </div>
+
+  <!-- Section 4 -->
+  <h1>4. Tactical Guidelines for Immersion Day (October 16, 2026)</h1>
+  <p>
+    <strong>1. Use Real Telangana Artifacts:</strong> Bring a physical TGSPDCL yellow paper bill to the in-person review. Upload it live to show instant extraction of the 9-digit Unique Service Number (USC No).
+  </p>
+  <p>
+    <strong>2. Play the Telugu Voice Note:</strong> Let the judges hear the AI speak fluent Telangana Telugu: <em>"మీరు ఈ నెల 215 యూనిట్లు వాడారు. 200 యూనిట్ల గ్రుహజ్యోతి పరిమితి దాటడం వల్ల..."</em>. This immediately demonstrates state-wide vernacular inclusion.
+  </p>
+  <p>
+    <strong>3. Showcase the Officer Command Center:</strong> Showing the backend officer portal proves this is not a toy chatbot, but a complete enterprise utility platform.
+  </p>
+
+  <!-- Running Footer -->
+  <div class="doc-footer">
+    <div><strong>UrjaMitra AI</strong> &bull; Manik Prabhu | Digio Click</div>
+    <div>AIKAM EnergyTech Challenge 2026 &bull; Page 2 of 2</div>
+  </div>
+
+</body>
+</html>

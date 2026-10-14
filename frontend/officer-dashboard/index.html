@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrjaMitra AI | Section Officer Command Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --accent: #10b981;
+            --bg: #090d16;
+            --card: #131b2e;
+            --border: #1e293b;
+            --text: #f1f5f9;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: var(--bg); color: var(--text); padding: 2rem; }
+        header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 2rem; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+        .stat-card h3 { color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; }
+        .stat-card .val { font-size: 1.8rem; font-weight: 700; margin-top: 0.5rem; color: #fff; }
+        table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: #1e293b; color: #cbd5e1; font-weight: 600; }
+        .badge-pending { background: rgba(245, 158, 11, 0.2); color: #fbbf24; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <h2>TGSPDCL Section Officer Command Center</h2>
+            <p style="color: #94a3b8;">Circle: Hyderabad South | Sub-Division: Banjara Hills</p>
+        </div>
+        <div>
+            <span style="background: rgba(16, 185, 129, 0.2); color: #34d399; padding: 6px 14px; border-radius: 20px; font-weight: 600; font-size: 0.85rem;">Live SAP Gateway Connected</span>
+        </div>
+    </header>
+
+    <div class="grid">
+        <div class="stat-card">
+            <h3>Total Circle Inquiries</h3>
+            <div class="val">14,892</div>
+        </div>
+        <div class="stat-card">
+            <h3>First-Contact Resolution Rate</h3>
+            <div class="val" style="color: #34d399;">84.2%</div>
+        </div>
+        <div class="stat-card">
+            <h3>Dispute Tickets for Audit</h3>
+            <div class="val" style="color: #fbbf24;">18</div>
+        </div>
+    </div>
+
+    <h3>Pending Meter Discrepancy Audits</h3>
+    <table style="margin-top: 1rem;">
+        <thead>
+            <tr>
+                <th>Ticket ID</th>
+                <th>USC No</th>
+                <th>Billed Units</th>
+                <th>Meter OCR Reading</th>
+                <th>Delta</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>URJA-DISP-89F1</td>
+                <td>100234891</td>
+                <td>680 kWh</td>
+                <td>14,210 kWh (vs 14,890)</td>
+                <td style="color: #ef4444;">-680 kWh</td>
+                <td><span class="badge-pending">Under Audit</span></td>
+                <td><button style="padding: 6px 12px; background: #6366f1; border: none; color: #fff; border-radius: 6px; cursor: pointer;">Review Evidence</button></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

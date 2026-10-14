@@ -1,0 +1,37 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: urjamitra-api-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: urjamitra-api
+  minReplicas: 3      # Baseline established footprint
+  maxReplicas: 50     # Peak scale during 10,000+ user surges
+  metrics:
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 70  # Trigger scale-up when RAM usage crosses 70%
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 65  # Trigger scale-up when CPU usage crosses 65%
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 0  # Immediate scale-up for sudden traffic surges
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 15
+    scaleDown:
+      stabilizationWindowSeconds: 300 # 5-minute cool-down to prevent flapping
+      policies:
+      - type: Percent
+        value: 20
+        periodSeconds: 60

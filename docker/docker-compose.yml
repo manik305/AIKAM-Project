@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.api
+    container_name: urjamitra_api
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - DATABASE_URL=postgresql+asyncpg://urjamitra_user:urjamitra_secure_password@postgres:5432/urjamitra_db
+      - REDIS_URL=redis://redis:6379/0
+    env_file:
+      - ../.env.example
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ../src:/app/src
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: urjamitra_postgres
+    environment:
+      POSTGRES_USER: urjamitra_user
+      POSTGRES_PASSWORD: urjamitra_secure_password
+      POSTGRES_DB: urjamitra_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ../scripts/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U urjamitra_user -d urjamitra_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: urjamitra_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  redisdata:

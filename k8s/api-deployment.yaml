@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: urjamitra-api
+  labels:
+    app: urjamitra-api
+spec:
+  replicas: 3 # Baseline replicas
+  selector:
+    matchLabels:
+      app: urjamitra-api
+  template:
+    metadata:
+      labels:
+        app: urjamitra-api
+    spec:
+      containers:
+      - name: api
+        image: urjamitraacr.azurecr.io/api:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        envFrom:
+        - configMapRef:
+            name: urjamitra-config
+        - secretRef:
+            name: urjamitra-secrets
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: urjamitra-api-service
+spec:
+  type: ClusterIP
+  selector:
+    app: urjamitra-api
+  ports:
+  - port: 8000
+    targetPort: 8000

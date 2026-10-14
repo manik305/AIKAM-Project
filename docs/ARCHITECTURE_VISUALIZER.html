@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UrjaMitra AI | Enterprise Cloud Architecture Visualizer (STMR)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #07090E;
+      --bg-surface: #0E131F;
+      --bg-card: rgba(18, 24, 38, 0.75);
+      --bg-card-hover: rgba(26, 35, 56, 0.9);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(56, 189, 248, 0.35);
+      
+      --azure-blue: #0078D4;
+      --azure-cyan: #38BDF8;
+      --k8s-blue: #326CE5;
+      --telangana-gold: #F59E0B;
+      --accent-green: #10B981;
+      --accent-purple: #8B5CF6;
+      --accent-rose: #F43F5E;
+      
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
+      
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --shadow-elevation: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+      --shadow-glow: 0 0 25px rgba(56, 189, 248, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Ambient Background Glow */
+    .ambient-glow {
+      position: fixed;
+      top: -20%;
+      left: 20%;
+      width: 60vw;
+      height: 50vh;
+      background: radial-gradient(circle, rgba(0, 120, 212, 0.12) 0%, rgba(139, 92, 246, 0.05) 50%, transparent 80%);
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Header Bar */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11, 15, 23, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.85rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #0284C7, #0369A1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(2, 132, 199, 0.4);
+    }
+
+    .brand-icon svg {
+      width: 26px;
+      height: 26px;
+      color: #fff;
+    }
+
+    .brand-info h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #FFFFFF 30%, #94A3B8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-info .sub-tag {
+      font-size: 0.75rem;
+      color: var(--azure-cyan);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      box-shadow: 0 0 8px var(--accent-green);
+      animation: pulse-dot 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* Executive Attribution Badge */
+    .exec-attribution-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 0.45rem 1rem;
+      border-radius: 40px;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    }
+
+    .exec-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3B82F6, #1E40AF);
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .exec-details {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+
+    .exec-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .exec-role {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    .exec-company {
+      color: #38BDF8;
+      font-weight: 600;
+    }
+
+    /* Cloud Infrastructure Pill */
+    .cloud-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0, 120, 212, 0.15);
+      border: 1px solid rgba(0, 120, 212, 0.4);
+      padding: 0.4rem 0.9rem;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #60A5FA;
+    }
+
+    .cloud-pill svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 0.5rem;
+      background: rgba(15, 23, 42, 0.8);
+      padding: 0.25rem;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .nav-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 0.45rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .nav-tab-btn.active {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--azure-cyan);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    .nav-tab-btn:hover:not(.active) {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Sub-Header Toolbar */
+    .toolbar {
+      background: rgba(14, 19, 31, 0.7);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.6rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.8rem;
+      z-index: 10;
+    }
+
+    .tier-filters {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .filter-label {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      font-weight: 600;
+      margin-right: 0.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .chip-filter {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 0.25rem 0.65rem;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .chip-filter:hover {
+      border-color: rgba(255,255,255,0.25);
+      color: #fff;
+    }
+
+    .chip-filter.active {
+      background: rgba(255,255,255,0.1);
+      border-color: var(--azure-cyan);
+      color: #fff;
+    }
+
+    .story-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .story-btn {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s;
+    }
+
+    .story-btn:hover {
+      background: rgba(51, 65, 85, 0.9);
+      border-color: var(--azure-cyan);
+    }
+
+    .story-btn.primary {
+      background: linear-gradient(135deg, #0284C7, #0369A1);
+      border-color: #38BDF8;
+      box-shadow: 0 0 12px rgba(2, 132, 199, 0.4);
+    }
+
+    .story-btn.primary:hover {
+      background: linear-gradient(135deg, #0369A1, #075985);
+    }
+
+    /* Main Container Viewports */
+    main {
+      flex: 1;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      z-index: 1;
+    }
+
+    .tab-content {
+      display: none;
+      flex: 1;
+      width: 100%;
+    }
+
+    .tab-content.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Canvas Worksurface */
+    .canvas-viewport {
+      position: relative;
+      flex: 1;
+      min-height: 780px;
+      overflow: hidden;
+      background-color: #070A0F;
+      background-image: 
+        radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.07) 1px, transparent 0);
+      background-size: 24px 24px;
+      user-select: none;
+      cursor: grab;
+    }
+
+    .canvas-viewport:active {
+      cursor: grabbing;
+    }
+
+    .zoom-hud {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      background: rgba(14, 19, 31, 0.85);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+      padding: 0.3rem;
+      box-shadow: var(--shadow-elevation);
+      z-index: 50;
+    }
+
+    .zoom-btn {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 700;
+      transition: all 0.15s;
+    }
+
+    .zoom-btn:hover {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+
+    .zoom-level-text {
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 0 0.5rem;
+      color: var(--text-muted);
+    }
+
+    /* Legend Box */
+    .legend-hud {
+      position: absolute;
+      top: 20px;
+      left: 24px;
+      background: rgba(14, 19, 31, 0.85);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      padding: 0.75rem 1rem;
+      box-shadow: var(--shadow-elevation);
+      z-index: 50;
+      max-width: 260px;
+    }
+
+    .legend-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      margin-bottom: 0.5rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .legend-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+
+    /* Story Overlay Bar */
+    .story-toast {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      background: rgba(14, 19, 31, 0.92);
+      border: 1px solid var(--border-glow);
+      border-radius: 14px;
+      backdrop-filter: blur(16px);
+      padding: 1rem 1.25rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 15px rgba(56, 189, 248, 0.2);
+      max-width: 420px;
+      z-index: 55;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .story-toast-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .story-badge {
+      font-size: 0.68rem;
+      background: rgba(56, 189, 248, 0.2);
+      color: #38BDF8;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
+    .story-step-indicator {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .story-toast-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 0.35rem;
+    }
+
+    .story-toast-desc {
+      font-size: 0.8rem;
+      color: #CBD5E1;
+      line-height: 1.45;
+    }
+
+    .story-progress-bar {
+      height: 3px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+      margin-top: 0.75rem;
+      overflow: hidden;
+    }
+
+    .story-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #38BDF8, #818CF8);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* SVG Canvas Workspace */
+    #architecture-svg {
+      width: 100%;
+      height: 100%;
+      min-width: 1300px;
+      min-height: 800px;
+      display: block;
+    }
+
+    /* Node Card Styles */
+    .node-group {
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s;
+    }
+
+    .node-group:hover {
+      filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.45));
+    }
+
+    .node-bg {
+      fill: #0E1526;
+      stroke: rgba(255, 255, 255, 0.12);
+      stroke-width: 1.5;
+      rx: 14;
+      ry: 14;
+      transition: stroke 0.2s, fill 0.2s;
+    }
+
+    .node-group:hover .node-bg {
+      stroke: #38BDF8;
+      fill: #141E34;
+    }
+
+    .node-group.active-step .node-bg {
+      stroke: #F59E0B;
+      stroke-width: 2.5;
+      fill: #1B2642;
+      filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.6));
+      animation: pulse-active 1.5s infinite alternate;
+    }
+
+    @keyframes pulse-active {
+      0% { stroke: #F59E0B; }
+      100% { stroke: #38BDF8; }
+    }
+
+    .node-header-pill {
+      rx: 6;
+      ry: 6;
+      opacity: 0.18;
+    }
+
+    .node-title {
+      font-size: 13px;
+      font-weight: 700;
+      fill: #FFFFFF;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .node-subtext {
+      font-size: 10.5px;
+      fill: #94A3B8;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .node-tag {
+      font-size: 9.5px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.02em;
+    }
+
+    .system-boundary {
+      fill: rgba(14, 21, 38, 0.3);
+      stroke-dasharray: 6 6;
+      stroke-width: 1.5;
+      rx: 20;
+      ry: 20;
+    }
+
+    .system-label {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Links & Flow Particles */
+    .link-path {
+      stroke-width: 2;
+      fill: none;
+      transition: stroke 0.2s, stroke-width 0.2s;
+    }
+
+    .link-path.highlighted {
+      stroke: #F59E0B !important;
+      stroke-width: 3.5 !important;
+      filter: drop-shadow(0 0 8px #F59E0B);
+    }
+
+    .link-animated-bead {
+      fill: #38BDF8;
+      filter: drop-shadow(0 0 6px #38BDF8);
+    }
+
+    /* Slide-Over Inspector Drawer */
+    .inspector-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 480px;
+      height: 100vh;
+      background: rgba(11, 16, 27, 0.96);
+      backdrop-filter: blur(24px);
+      border-left: 1px solid var(--border-subtle);
+      z-index: 120;
+      box-shadow: -15px 0 50px rgba(0, 0, 0, 0.7);
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .inspector-drawer.open {
+      transform: translateX(0);
+    }
+
+    .inspector-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .inspector-title-area h2 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .inspector-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .close-inspector-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.2s;
+    }
+
+    .close-inspector-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .inspector-body {
+      flex: 1;
+      padding: 1.5rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .spec-card {
+      background: rgba(18, 25, 41, 0.8);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+    }
+
+    .spec-card-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--azure-cyan);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .spec-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .spec-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .spec-label {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .spec-val {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #F1F5F9;
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 0.15rem;
+    }
+
+    .endpoint-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .endpoint-row {
+      background: rgba(10, 14, 23, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 0.6rem 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .endpoint-top {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .method-badge {
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .method-post { background: rgba(16, 185, 129, 0.2); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .method-get { background: rgba(56, 189, 248, 0.2); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.4); }
+    .method-put { background: rgba(245, 158, 11, 0.2); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .method-delete { background: rgba(244, 63, 94, 0.2); color: #FB7185; border: 1px solid rgba(244, 63, 94, 0.4); }
+
+    .endpoint-path {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #E2E8F0;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .endpoint-desc {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* Grid Views for Other Tabs */
+    .catalog-view {
+      padding: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .catalog-section-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .catalog-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      transition: all 0.2s;
+    }
+
+    .catalog-card:hover {
+      border-color: var(--border-glow);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+
+    .catalog-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .catalog-icon-box {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .catalog-card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .catalog-card-sub {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .catalog-card-desc {
+      font-size: 0.82rem;
+      color: #94A3B8;
+      line-height: 1.45;
+      margin-bottom: 1rem;
+    }
+
+    /* Raw IR View */
+    .ir-code-block {
+      background: #090D16;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: #A5B4FC;
+      line-height: 1.6;
+      overflow-x: auto;
+      max-height: 70vh;
+    }
+
+    .copy-btn {
+      background: rgba(56, 189, 248, 0.2);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38BDF8;
+      padding: 0.35rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: rgba(56, 189, 248, 0.3);
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(11, 15, 23, 0.9);
+      border-top: 1px solid var(--border-subtle);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      z-index: 10;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .footer-brand {
+      color: #F8FAFC;
+      font-weight: 600;
+    }
+
+    .footer-attribution {
+      color: #38BDF8;
+      font-weight: 600;
+    }
+
+    /* Tooltip styles */
+    .tooltip {
+      position: absolute;
+      background: rgba(14, 19, 31, 0.95);
+      border: 1px solid var(--azure-cyan);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 11px;
+      color: #fff;
+      pointer-events: none;
+      z-index: 1000;
+      display: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-glow"></div>
+
+  <!-- Main Sticky Header -->
+  <header>
+    <div class="brand-group">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="brand-info">
+        <h1>UrjaMitra AI Architecture Visualizer</h1>
+        <div class="sub-tag">
+          <span class="live-dot"></span>
+          <span>AIKAM EnergyTech • TGSPDCL & TGNPDCL Copilot</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+      <button class="nav-tab-btn active" onclick="switchTab('canvas')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Canvas Topology
+      </button>
+      <button class="nav-tab-btn" onclick="switchTab('catalog')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        Cloud Services Catalog
+      </button>
+      <button class="nav-tab-btn" onclick="switchTab('endpoints')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        API Endpoints Matrix
+      </button>
+      <button class="nav-tab-btn" onclick="switchTab('stmr')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        STMR JSON IR
+      </button>
+    </div>
+
+    <!-- Cloud Platform Badge -->
+    <div class="cloud-pill">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
+      </svg>
+      <span>Azure Central India + AKS Cluster</span>
+    </div>
+
+    <!-- Executive Attribution Badge -->
+    <div class="exec-attribution-badge">
+      <div class="exec-avatar">MP</div>
+      <div class="exec-details">
+        <span class="exec-name">Manik Prabhu</span>
+        <span class="exec-role">Senior Marketing and Delivery Manager | <span class="exec-company">Digio Click</span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Interactive Toolbar -->
+  <div class="toolbar">
+    <div class="tier-filters">
+      <span class="filter-label">Filter Tiers:</span>
+      <button class="chip-filter active" onclick="filterTier('all')">All Tiers</button>
+      <button class="chip-filter" onclick="filterTier('client')">Client Edge</button>
+      <button class="chip-filter" onclick="filterTier('ingress')">Ingress / Jev</button>
+      <button class="chip-filter" onclick="filterTier('compute')">AKS Multi-Agent</button>
+      <button class="chip-filter" onclick="filterTier('data')">Data / Cache</button>
+      <button class="chip-filter" onclick="filterTier('enterprise')">SAP IS-U</button>
+    </div>
+
+    <div class="story-controls">
+      <span class="filter-label">Interactive Story Tracers:</span>
+      <button class="story-btn" onclick="startStory('story-gruhajyothi')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Story 1: Zero-Bill (<100ms)
+      </button>
+      <button class="story-btn" onclick="startStory('story-dispute')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Story 2: Meter OCR Dispute
+      </button>
+      <button class="story-btn" onclick="startStory('story-scale')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Story 3: 10K+ HPA Burst
+      </button>
+      <button class="story-btn primary" onclick="resetCanvasView()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+        Reset View
+      </button>
+    </div>
+  </div>
+
+  <!-- Tooltip -->
+  <div id="canvas-tooltip" class="tooltip"></div>
+
+  <!-- Main Viewports -->
+  <main>
+    <!-- Tab 1: Interactive Canvas Topology -->
+    <div id="tab-canvas" class="tab-content active">
+      <div class="canvas-viewport" id="viewport">
+        <!-- Legend Overlay -->
+        <div class="legend-hud">
+          <div class="legend-title">Architecture Tiers & SLA</div>
+          <div class="legend-item"><div class="legend-swatch" style="background: #38BDF8;"></div><span>Client Edge (Web / IVR)</span></div>
+          <div class="legend-item"><div class="legend-swatch" style="background: #F59E0B;"></div><span>Jev Perception (50-100ms)</span></div>
+          <div class="legend-item"><div class="legend-swatch" style="background: #818CF8;"></div><span>AKS Multi-Agent Cluster</span></div>
+          <div class="legend-item"><div class="legend-swatch" style="background: #34D399;"></div><span>Postgres 16 & Redis Cache</span></div>
+          <div class="legend-item"><div class="legend-swatch" style="background: #F43F5E;"></div><span>TGSPDCL SAP IS-U BAPI</span></div>
+        </div>
+
+        <!-- Story Walkthrough Banner -->
+        <div class="story-toast" id="story-toast">
+          <div class="story-toast-header">
+            <span class="story-badge" id="story-badge">SCENARIO</span>
+            <span class="story-step-indicator" id="story-counter">STEP 1 / 4</span>
+          </div>
+          <div class="story-toast-title" id="story-title">Initiating Request</div>
+          <div class="story-toast-desc" id="story-desc">Evaluating token sequence...</div>
+          <div class="story-progress-bar">
+            <div class="story-progress-fill" id="story-bar"></div>
+          </div>
+        </div>
+
+        <!-- Zoom HUD -->
+        <div class="zoom-hud">
+          <button class="zoom-btn" onclick="zoomIn()" title="Zoom In">+</button>
+          <span class="zoom-level-text" id="zoom-label">100%</span>
+          <button class="zoom-btn" onclick="zoomOut()" title="Zoom Out">-</button>
+          <button class="zoom-btn" onclick="resetCanvasView()" title="Fit to Screen" style="font-size:0.75rem;">FIT</button>
+        </div>
+
+        <!-- SVG Architecture Surface -->
+        <svg id="architecture-svg" viewBox="0 0 1440 860">
+          <defs>
+            <!-- Glow Filters -->
+            <filter id="glow-blue" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="8" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+            <filter id="glow-gold" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="10" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+
+            <!-- Gradients -->
+            <linearGradient id="grad-client" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#0284C7" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#0F172A" stop-opacity="0.8"/>
+            </linearGradient>
+            <linearGradient id="grad-ingress" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#D97706" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#0F172A" stop-opacity="0.8"/>
+            </linearGradient>
+            <linearGradient id="grad-compute" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#4F46E5" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#0F172A" stop-opacity="0.8"/>
+            </linearGradient>
+            <linearGradient id="grad-data" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#059669" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#0F172A" stop-opacity="0.8"/>
+            </linearGradient>
+            <linearGradient id="grad-enterprise" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#E11D48" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#0F172A" stop-opacity="0.8"/>
+            </linearGradient>
+
+            <!-- Arrow Markers -->
+            <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#38BDF8"/>
+            </marker>
+            <marker id="arrow-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#F59E0B"/>
+            </marker>
+            <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#10B981"/>
+            </marker>
+            <marker id="arrow-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#818CF8"/>
+            </marker>
+          </defs>
+
+          <!-- System Boundary 1: Client Edge Tier -->
+          <g id="sys-client-group">
+            <rect class="system-boundary" x="40" y="80" width="230" height="700" stroke="#38BDF8"/>
+            <text class="system-label" x="60" y="115" fill="#38BDF8">1. Client Ingress Tier</text>
+          </g>
+
+          <!-- System Boundary 2: Ingress & Token Routing -->
+          <g id="sys-ingress-group">
+            <rect class="system-boundary" x="310" y="80" width="240" height="700" stroke="#F59E0B"/>
+            <text class="system-label" x="330" y="115" fill="#F59E0B">2. Ingress & Jev Router</text>
+          </g>
+
+          <!-- System Boundary 3: AKS Multi-Agent Application Core -->
+          <g id="sys-compute-group">
+            <rect class="system-boundary" x="590" y="80" width="460" height="700" stroke="#818CF8"/>
+            <text class="system-label" x="610" y="115" fill="#818CF8">3. AKS Multi-Agent Cluster (HPA 3->50)</text>
+          </g>
+
+          <!-- System Boundary 4: Data & Enterprise -->
+          <g id="sys-data-group">
+            <rect class="system-boundary" x="1090" y="80" width="310" height="700" stroke="#34D399"/>
+            <text class="system-label" x="1110" y="115" fill="#34D399">4. Persistence & SAP Core</text>
+          </g>
+
+          <!-- Link Paths -->
+          <!-- Link 1: Citizen Web -> App Gateway -->
+          <path id="link-web-appgw" class="link-path" d="M 230 200 L 340 200" stroke="#38BDF8" marker-end="url(#arrow-blue)"/>
+          <!-- Link 2: Officer Web -> App Gateway -->
+          <path id="link-off-appgw" class="link-path" d="M 230 420 L 290 420 L 290 230 L 340 230" stroke="#38BDF8" marker-end="url(#arrow-blue)"/>
+          <!-- Link 3: WhatsApp/IVR -> App Gateway -->
+          <path id="link-ivr-appgw" class="link-path" d="M 230 630 L 290 630 L 290 250 L 340 250" stroke="#38BDF8" marker-end="url(#arrow-blue)"/>
+
+          <!-- Link 4: App Gateway -> Jev Router -->
+          <path id="link-appgw-jev" class="link-path" d="M 430 300 L 430 430" stroke="#F59E0B" marker-end="url(#arrow-gold)"/>
+
+          <!-- Link 5: Jev Router -> Deterministic Engine (Zero-LLM Bypass) -->
+          <path id="link-jev-det" class="link-path" d="M 520 480 L 620 480 L 620 220 L 640 220" stroke="#10B981" stroke-dasharray="4 4" marker-end="url(#arrow-green)"/>
+
+          <!-- Link 6: Jev Router -> FastAPI / LangGraph -->
+          <path id="link-jev-langgraph" class="link-path" d="M 520 520 L 640 520" stroke="#F59E0B" marker-end="url(#arrow-gold)"/>
+
+          <!-- Link 7: LangGraph -> Deterministic Engine -->
+          <path id="link-lg-det" class="link-path" d="M 750 460 L 750 300" stroke="#818CF8" marker-end="url(#arrow-purple)"/>
+
+          <!-- Link 8: LangGraph -> Vision OCR Worker -->
+          <path id="link-lg-vision" class="link-path" d="M 750 590 L 750 640" stroke="#818CF8" marker-end="url(#arrow-purple)"/>
+
+          <!-- Link 9: Deterministic Engine -> PostgreSQL -->
+          <path id="link-det-pg" class="link-path" d="M 860 210 L 1120 210" stroke="#34D399" marker-end="url(#arrow-green)"/>
+
+          <!-- Link 10: LangGraph -> Redis Cache -->
+          <path id="link-lg-redis" class="link-path" d="M 860 510 L 1000 510 L 1000 390 L 1120 390" stroke="#34D399" marker-end="url(#arrow-green)"/>
+
+          <!-- Link 11: LangGraph -> SAP IS-U BAPI -->
+          <path id="link-lg-sap" class="link-path" d="M 860 540 L 1120 540" stroke="#F43F5E" marker-end="url(#arrow-purple)"/>
+
+          <!-- Link 12: Vision OCR -> Blob Storage -->
+          <path id="link-vision-blob" class="link-path" d="M 860 690 L 1120 690" stroke="#38BDF8" marker-end="url(#arrow-blue)"/>
+
+          <!-- Flow Animated Particles (Hidden by default, triggered in stories) -->
+          <circle id="anim-bead-1" r="5" class="link-animated-bead" style="opacity: 0;"></circle>
+          <circle id="anim-bead-2" r="5" class="link-animated-bead" style="opacity: 0;"></circle>
+
+          <!-- ==================== NODES ==================== -->
+
+          <!-- Node 1: Citizen Web Portal -->
+          <g class="node-group" id="node-citizen-web" transform="translate(60, 150)" onclick="inspectNode('mod-citizen')">
+            <rect class="node-bg" width="190" height="96"/>
+            <rect class="node-header-pill" x="12" y="12" width="60" height="18" fill="#38BDF8"/>
+            <text class="node-tag" x="18" y="25" fill="#38BDF8">SPA / WEB</text>
+            <text class="node-title" x="14" y="52">Citizen Copilot Portal</text>
+            <text class="node-subtext" x="14" y="70">Telugu / Hindi / English</text>
+            <text class="node-subtext" x="14" y="85" fill="#64748B">Vanilla JS + CSS Glass</text>
+          </g>
+
+          <!-- Node 2: Officer Command Center -->
+          <g class="node-group" id="node-officer-dash" transform="translate(60, 360)" onclick="inspectNode('mod-officer')">
+            <rect class="node-bg" width="190" height="106"/>
+            <rect class="node-header-pill" x="12" y="12" width="75" height="18" fill="#F59E0B"/>
+            <text class="node-tag" x="18" y="25" fill="#F59E0B">OFFICER UI</text>
+            <text class="node-title" x="14" y="52">Section Officer Hub</text>
+            <text class="node-subtext" x="14" y="70">Dispute Heatmap & Review</text>
+            <text class="node-subtext" x="14" y="85" fill="#64748B">Circle / USC Filtering</text>
+          </g>
+
+          <!-- Node 3: WhatsApp & 1912 IVR Bridge -->
+          <g class="node-group" id="node-ivr-bridge" transform="translate(60, 580)" onclick="inspectNode('mod-ivr')">
+            <rect class="node-bg" width="190" height="96"/>
+            <rect class="node-header-pill" x="12" y="12" width="70" height="18" fill="#10B981"/>
+            <text class="node-tag" x="18" y="25" fill="#10B981">OMNICHANNEL</text>
+            <text class="node-title" x="14" y="52">1912 Voice & WhatsApp</text>
+            <text class="node-subtext" x="14" y="70">Telephony Webhook & Bot</text>
+            <text class="node-subtext" x="14" y="85" fill="#64748B">Telugu Speech-to-Text</text>
+          </g>
+
+          <!-- Node 4: Azure App Gateway & Envoy Ingress -->
+          <g class="node-group" id="node-app-gateway" transform="translate(330, 150)" onclick="inspectNode('mod-gateway')">
+            <rect class="node-bg" width="200" height="120"/>
+            <rect class="node-header-pill" x="12" y="12" width="75" height="18" fill="#38BDF8"/>
+            <text class="node-tag" x="18" y="25" fill="#38BDF8">AZURE APPGW</text>
+            <text class="node-title" x="14" y="52">Azure App Gateway</text>
+            <text class="node-subtext" x="14" y="70">WAF v2 + TLS 1.3 Term</text>
+            <text class="node-subtext" x="14" y="86">Rate Limiter (10K req/m)</text>
+            <text class="node-subtext" x="14" y="102" fill="#64748B">Central India Multi-AZ</text>
+          </g>
+
+          <!-- Node 5: Jev System-1 Token Router -->
+          <g class="node-group" id="node-jev-router" transform="translate(330, 430)" onclick="inspectNode('mod-jev')">
+            <rect class="node-bg" width="200" height="150" stroke="#F59E0B"/>
+            <rect class="node-header-pill" x="12" y="12" width="85" height="18" fill="#F59E0B"/>
+            <text class="node-tag" x="18" y="25" fill="#F59E0B">JEV PARALLEL</text>
+            <text class="node-title" x="14" y="52">Jev System-1 Router</text>
+            <text class="node-subtext" x="14" y="70" fill="#38BDF8">Latency: 50–100ms</text>
+            <text class="node-subtext" x="14" y="86">Choice / Noul / Score</text>
+            <text class="node-subtext" x="14" y="102">Zero-LLM Bypass Evaluator</text>
+            <text class="node-subtext" x="14" y="124" fill="#10B981">Dispute Score &gt;= 7 Escalation</text>
+          </g>
+
+          <!-- Node 6: Deterministic TGERC Math Engine (System-0) -->
+          <g class="node-group" id="node-tgerc-engine" transform="translate(640, 150)" onclick="inspectNode('mod-engine')">
+            <rect class="node-bg" width="220" height="120" stroke="#10B981"/>
+            <rect class="node-header-pill" x="12" y="12" width="85" height="18" fill="#10B981"/>
+            <text class="node-tag" x="18" y="25" fill="#10B981">SYSTEM-0 MATH</text>
+            <text class="node-title" x="14" y="52">TGERC Gazette Engine</text>
+            <text class="node-subtext" x="14" y="70">Pure Python Deterministic</text>
+            <text class="node-subtext" x="14" y="86">Gruha Jyothi (0-200 Subsidy)</text>
+            <text class="node-subtext" x="14" y="102" fill="#64748B">Zero-Hallucination Core</text>
+          </g>
+
+          <!-- Node 7: LangGraph Multi-Agent Orchestrator (System-2) -->
+          <g class="node-group" id="node-langgraph-core" transform="translate(640, 430)" onclick="inspectNode('mod-langgraph')">
+            <rect class="node-bg" width="220" height="140" stroke="#818CF8"/>
+            <rect class="node-header-pill" x="12" y="12" width="95" height="18" fill="#818CF8"/>
+            <text class="node-tag" x="18" y="25" fill="#818CF8">SYSTEM-2 AGENTS</text>
+            <text class="node-title" x="14" y="52">LangGraph Multi-Agent</text>
+            <text class="node-subtext" x="14" y="70">StateGraph Supervisor</text>
+            <text class="node-subtext" x="14" y="86">Vernacular Deconstruction</text>
+            <text class="node-subtext" x="14" y="102">Advisory & Ticket Agent</text>
+            <text class="node-subtext" x="14" y="118" fill="#38BDF8">Gemini 3.8 / Flash Reasoning</text>
+          </g>
+
+          <!-- Node 8: Multimodal Meter OCR Worker (KEDA Scaled) -->
+          <g class="node-group" id="node-vision-worker" transform="translate(640, 640)" onclick="inspectNode('mod-vision')">
+            <rect class="node-bg" width="220" height="106"/>
+            <rect class="node-header-pill" x="12" y="12" width="75" height="18" fill="#38BDF8"/>
+            <text class="node-tag" x="18" y="25" fill="#38BDF8">KEDA WORKER</text>
+            <text class="node-title" x="14" y="52">Meter Vision OCR Worker</text>
+            <text class="node-subtext" x="14" y="70">Multimodal LCD Extraction</text>
+            <text class="node-subtext" x="14" y="86" fill="#64748B">Door-Lock Mistake Audit</text>
+          </g>
+
+          <!-- Node 9: Azure Database for PostgreSQL 16 -->
+          <g class="node-group" id="node-postgres-db" transform="translate(1120, 150)" onclick="inspectNode('mod-postgres')">
+            <rect class="node-bg" width="240" height="120" stroke="#34D399"/>
+            <rect class="node-header-pill" x="12" y="12" width="75" height="18" fill="#34D399"/>
+            <text class="node-tag" x="18" y="25" fill="#34D399">POSTGRES 16</text>
+            <text class="node-title" x="14" y="52">Azure PostgreSQL Flexible</text>
+            <text class="node-subtext" x="14" y="70">USC Master & Tariff History</text>
+            <text class="node-subtext" x="14" y="86">Dispute Ledger & Audit Trail</text>
+            <text class="node-subtext" x="14" y="102" fill="#64748B">Multi-AZ HA + Read Replicas</text>
+          </g>
+
+          <!-- Node 10: Azure Cache for Redis Cluster -->
+          <g class="node-group" id="node-redis-cache" transform="translate(1120, 330)" onclick="inspectNode('mod-redis')">
+            <rect class="node-bg" width="240" height="106" stroke="#34D399"/>
+            <rect class="node-header-pill" x="12" y="12" width="75" height="18" fill="#34D399"/>
+            <text class="node-tag" x="18" y="25" fill="#34D399">REDIS CLUSTER</text>
+            <text class="node-title" x="14" y="52">Azure Redis Enterprise</text>
+            <text class="node-subtext" x="14" y="70">Semantic Prompt Cache</text>
+            <text class="node-subtext" x="14" y="86" fill="#64748B">Session State & Jev Decision Cache</text>
+          </g>
+
+          <!-- Node 11: TGSPDCL / TGNPDCL SAP IS-U BAPI -->
+          <g class="node-group" id="node-sap-isu" transform="translate(1120, 490)" onclick="inspectNode('mod-sap')">
+            <rect class="node-bg" width="240" height="110" stroke="#F43F5E"/>
+            <rect class="node-header-pill" x="12" y="12" width="75" height="18" fill="#F43F5E"/>
+            <text class="node-tag" x="18" y="25" fill="#F43F5E">ENTERPRISE ERP</text>
+            <text class="node-title" x="14" y="52">SAP IS-U BAPI Core</text>
+            <text class="node-subtext" x="14" y="70">Official Dispute Push & Sync</text>
+            <text class="node-subtext" x="14" y="86">Provisional Bill Adjustments</text>
+            <text class="node-subtext" x="14" y="100" fill="#64748B">mTLS Encrypted Gateway</text>
+          </g>
+
+          <!-- Node 12: Azure Blob / MinIO Evidence Vault -->
+          <g class="node-group" id="node-blob-vault" transform="translate(1120, 640)" onclick="inspectNode('mod-blob')">
+            <rect class="node-bg" width="240" height="106" stroke="#38BDF8"/>
+            <rect class="node-header-pill" x="12" y="12" width="85" height="18" fill="#38BDF8"/>
+            <text class="node-tag" x="18" y="25" fill="#38BDF8">BLOB STORAGE</text>
+            <text class="node-title" x="14" y="52">Meter Evidence Vault</text>
+            <text class="node-subtext" x="14" y="70">Photo Proof & OCR Archives</text>
+            <text class="node-subtext" x="14" y="86" fill="#64748B">Azure Blob (Hot/Cool Lifecycle)</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Tab 2: Cloud Services Catalog -->
+    <div id="tab-catalog" class="tab-content">
+      <div class="catalog-view">
+        <div class="catalog-section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+          Microsoft Azure Infrastructure Catalog (Central India / Telangana)
+        </div>
+        <div class="catalog-grid" id="catalog-azure-grid">
+          <!-- Rendered via JS -->
+        </div>
+
+        <div class="catalog-section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Kubernetes Workloads & Autoscaling Controllers
+        </div>
+        <div class="catalog-grid" id="catalog-k8s-grid">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: API Endpoints Matrix -->
+    <div id="tab-endpoints" class="tab-content">
+      <div class="catalog-view">
+        <div class="catalog-section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          UrjaMitra API v1 Endpoints & Contracts (OpenAPI 3.1)
+        </div>
+        <div class="catalog-grid" id="catalog-endpoints-grid">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 4: STMR JSON IR Specification -->
+    <div id="tab-stmr" class="tab-content">
+      <div class="catalog-view">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <div class="catalog-section-title" style="margin-bottom: 0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Standard Topology & Architecture Intermediate Representation (STMR IR)
+          </div>
+          <button class="copy-btn" onclick="copyStmrJson()">Copy STMR JSON</button>
+        </div>
+        <pre class="ir-code-block" id="stmr-json-display"></pre>
+      </div>
+    </div>
+  </main>
+
+  <!-- Slide-Over Inspector Drawer -->
+  <aside class="inspector-drawer" id="inspector">
+    <div class="inspector-header">
+      <div class="inspector-title-area">
+        <h2 id="insp-name">Module Name</h2>
+        <div class="inspector-subtitle" id="insp-sub">System Classification</div>
+      </div>
+      <button class="close-inspector-btn" onclick="closeInspector()">&times;</button>
+    </div>
+    <div class="inspector-body">
+      <!-- Technical Specifications Card -->
+      <div class="spec-card">
+        <div class="spec-card-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          Technical Profile & Runtime
+        </div>
+        <div class="spec-grid">
+          <div class="spec-item">
+            <span class="spec-label">Tech Stack</span>
+            <span class="spec-val" id="insp-stack">Python 3.11</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Latency SLA</span>
+            <span class="spec-val" id="insp-sla">p99 < 80ms</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Cloud Service</span>
+            <span class="spec-val" id="insp-cloud">AKS Pod</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-label">Replicas / Scale</span>
+            <span class="spec-val" id="insp-scale">3 to 50 Replicas</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description Card -->
+      <div class="spec-card">
+        <div class="spec-card-title">Role & Architectural Mission</div>
+        <p class="endpoint-desc" id="insp-desc" style="font-size: 0.85rem; line-height: 1.5; color: #CBD5E1;"></p>
+      </div>
+
+      <!-- Exposed Endpoints Card -->
+      <div class="spec-card">
+        <div class="spec-card-title">Exposed API Endpoints & Interfaces</div>
+        <div class="endpoint-list" id="insp-endpoints">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- Resilience & Security Card -->
+      <div class="spec-card">
+        <div class="spec-card-title">Resilience & Security Controls</div>
+        <div class="endpoint-desc" id="insp-resilience" style="font-size: 0.8rem; line-height: 1.45; color: #94A3B8;"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Branded Executive Footer -->
+  <footer>
+    <div class="footer-left">
+      <span class="footer-brand">UrjaMitra AI Architecture Dossier</span>
+      <span>•</span>
+      <span>AIKAM EnergyTech Innovation Challenge (Dept. of Energy, Govt. of Telangana)</span>
+    </div>
+    <div>
+      <span class="footer-attribution">Manik Prabhu</span> | Senior Marketing and Delivery Manager | <span style="color:#F8FAFC;font-weight:600;">Digio Click</span> (DJOClick)
+    </div>
+  </footer>
+
+  <script>
+    /* ==========================================================================
+       STMR Intermediate Representation (IR) Data Store
+       ========================================================================== */
+    const STMR_DATA = {
+      meta: {
+        title: "UrjaMitra AI: Enterprise Agentic Billing Architecture",
+        version: "1.0.0",
+        cloudProvider: "Microsoft Azure (Central India)",
+        orchestration: "Azure Kubernetes Service (AKS)",
+        author: "Manik Prabhu",
+        designation: "Senior Marketing and Delivery Manager",
+        company: "Digio Click (DJOClick)",
+        initiative: "AIKAM EnergyTech Innovation Challenge",
+        governmentEntities: ["TGSPDCL", "TGNPDCL", "Telangana State Dept. of Energy"]
+      },
+      cloudInfrastructure: {
+        provider: "Microsoft Azure",
+        region: "Central India (Pune) / South India (Chennai) for low latency data residency",
+        services: [
+          {
+            id: "az-aks",
+            name: "Azure Kubernetes Service (AKS)",
+            sku: "Standard_D4s_v5 (4 vCPU, 16 GiB RAM)",
+            category: "Compute & Orchestration",
+            role: "Autoscaling container runtime with Horizontal Pod Autoscaler and Cluster Autoscaler (2 -> 12 nodes)",
+            sla: "99.95% Availability with Uptime SLA"
+          },
+          {
+            id: "az-appgw",
+            name: "Azure Application Gateway v2",
+            sku: "WAF_v2 with autoscaling (2-10 instances)",
+            category: "Perimeter Security & Ingress",
+            role: "Layer 7 reverse proxy, OWASP ModSecurity rule enforcement, TLS 1.3 termination, rate limiting",
+            sla: "99.95% Availability"
+          },
+          {
+            id: "az-pg",
+            name: "Azure Database for PostgreSQL Flexible Server",
+            sku: "General Purpose, D4ds_v4 (4 vCPU, 16 GiB RAM, 128 GB Storage)",
+            category: "ACID Relational Core",
+            role: "Zone-redundant High Availability, read replicas, consumer connection history, dispute ledger",
+            sla: "99.99% Availability"
+          },
+          {
+            id: "az-redis",
+            name: "Azure Cache for Redis",
+            sku: "Premium P1 (6 GB Cluster)",
+            category: "In-Memory Cache & State",
+            role: "Semantic question embeddings, sub-millisecond session state, Jev token decision lookup cache",
+            sla: "99.9% Availability"
+          },
+          {
+            id: "az-blob",
+            name: "Azure Blob Storage Vault",
+            sku: "Standard GRS (Hot & Cool tiers)",
+            category: "Object Storage",
+            role: "Encrypted meter LCD photo evidence archives, OCR intermediate extracts, audit logs",
+            sla: "99.999999999999% (16 9s) Durability"
+          },
+          {
+            id: "az-acr",
+            name: "Azure Container Registry (ACR)",
+            sku: "Premium with Vulnerability Scanning",
+            category: "Container Management",
+            role: "Immutable container repository with Microsoft Defender container image vulnerability audit",
+            sla: "99.9% Availability"
+          }
+        ]
+      },
+      modules: {
+        "mod-citizen": {
+          name: "Citizen Copilot Portal",
+          system: "Client Edge Tier",
+          stack: "Vanilla JS (ES6+) / Modern CSS / HTML5",
+          sla: "p95 < 200ms page load",
+          cloud: "Azure App Gateway / Static Container",
+          scale: "CDN Cached Edge",
+          desc: "Empathetic, responsive citizen billing copilot supporting Telugu, Hindi, and English. Features direct USC bill lookup, Gruha Jyothi zero-bill eligibility checker, and live chat.",
+          endpoints: [
+            { method: "GET", path: "/", desc: "Citizen portal user interface and responsive forms" }
+          ],
+          resilience: "Offline service worker caching, automatic retry on intermittent cellular connection."
+        },
+        "mod-officer": {
+          name: "Section Officer Command Center",
+          system: "Client Edge Tier",
+          stack: "Vanilla JS / Glassmorphism / REST",
+          sla: "p95 < 300ms",
+          cloud: "Azure App Gateway / Internal Ingress",
+          scale: "Role-Based Access Control",
+          desc: "Dedicated dashboard for TGSPDCL & TGNPDCL section officers to review high-severity dispute tickets (Score >= 7), inspect meter photo OCR discrepancies, and push provisional revisions.",
+          endpoints: [
+            { method: "GET", path: "/officer", desc: "Officer portal for dispute triage and geographic circle heatmaps" }
+          ],
+          resilience: "JWT Token-based authentication with auto-refresh; audit trails on all officer actions."
+        },
+        "mod-ivr": {
+          name: "1912 Voice IVR & WhatsApp Bridge",
+          system: "Client Edge Tier",
+          stack: "Twilio / Meta Graph Webhook / FastAPI",
+          sla: "p99 < 150ms webhook response",
+          cloud: "AKS Microservice Pod",
+          scale: "5 to 20 Pods",
+          desc: "Ingests voice calls from the official Telangana 1912 consumer helpline and WhatsApp utility bots. Converts Telugu voice audio to text using Gemini Multimodal / Whisper and dispatches into the Jev Router.",
+          endpoints: [
+            { method: "POST", path: "/api/v1/channels/whatsapp/webhook", desc: "WhatsApp inbound message webhook listener" },
+            { method: "POST", path: "/api/v1/channels/ivr/voice", desc: "1912 Interactive Voice Response audio dispatch" }
+          ],
+          resilience: "Asynchronous acknowledgement with queueing to guarantee zero dropped citizen complaints."
+        },
+        "mod-gateway": {
+          name: "Azure Application Gateway & Envoy",
+          system: "Perimeter Ingress Tier",
+          stack: "Azure WAF v2 + Envoy Proxy",
+          sla: "p99 < 5ms gateway routing",
+          cloud: "Azure Managed Service",
+          scale: "2 to 10 Autoscaling units",
+          desc: "Front-door reverse proxy providing SSL/TLS 1.3 offloading, DDOS mitigation, OWASP CRS 3.2 filtering, and rate limiting up to 10,000 requests/minute to defend against bill-dispatch day surges.",
+          endpoints: [
+            { method: "ALL", path: "/api/v1/*", desc: "Reverse proxy routing to FastAPI Cluster IP service" }
+          ],
+          resilience: "Zone-redundant multi-region availability with automated failover."
+        },
+        "mod-jev": {
+          name: "Jev System-1 Token Router",
+          system: "Fast Perception Tier",
+          stack: "Python 3.11 + Jev Model Primitives",
+          sla: "50ms – 100ms Evaluation Latency",
+          cloud: "AKS High-Memory Pods",
+          scale: "Autoscaling with CPU > 60%",
+          desc: "Non-autoregressive token evaluation engine utilizing typed decision primitives (Choice, Noul, Score). Evaluates incoming citizen prompts in under 100ms to immediately determine intent, severity, and zero-LLM calculation bypass.",
+          endpoints: [
+            { method: "POST", path: "/api/v1/chat/query", desc: "Main entry point evaluating user query and dispatching to engine" }
+          ],
+          resilience: "In-memory caching of high-frequency token embeddings; fallback to LangGraph supervisor."
+        },
+        "mod-engine": {
+          name: "Deterministic TGERC Gazette Engine",
+          system: "Mathematical Calculation Core (System-0)",
+          stack: "Pure Python 3.11 (0 LLM Tokens)",
+          sla: "Latency < 5ms (Pure Math)",
+          cloud: "FastAPI In-Process Service / AKS",
+          scale: "Co-located with FastAPI Workers",
+          desc: "Enforces 100% mathematical precision adhering to Telangana State Electricity Regulatory Commission (TGERC) Gazette formulas. Accurately calculates Energy Charges, Fixed Charges, Customer Charges, Electricity Duty (ED), and Gruha Jyothi 200-unit 100% subsidies.",
+          endpoints: [
+            { method: "POST", path: "/api/v1/engine/calculate", desc: "Direct deterministic tariff calculation without LLM invocation" }
+          ],
+          resilience: "Immutable state; comprehensive unit test matrix guaranteeing 100% tariff compliance."
+        },
+        "mod-langgraph": {
+          name: "LangGraph Multi-Agent Orchestrator",
+          system: "Cognitive Multi-Agent Tier (System-2)",
+          stack: "LangGraph StateGraph / Gemini 3.8 / Python",
+          sla: "p90 < 1.2s",
+          cloud: "AKS Deployment (urjamitra-api)",
+          scale: "HPA scales from 3 to 50 pods",
+          desc: "Multi-agent StateGraph orchestrating specialized agents: Advisory Agent (subsidy tips), Deconstruction Agent (vernacular step-by-step explanations), Vision Agent (OCR verification), and Ticket Agent (SAP IS-U ticket creation).",
+          endpoints: [
+            { method: "POST", path: "/api/v1/chat/query", desc: "Agentic conversation with vernacular Telugu explanation" },
+            { method: "POST", path: "/api/v1/disputes/create", desc: "Initiate multi-agent dispute verification and SAP push" }
+          ],
+          resilience: "Structured fallbacks; timeout guards on LLM completion; conversational memory in Redis."
+        },
+        "mod-vision": {
+          name: "Meter Vision OCR Worker",
+          system: "Asynchronous Worker Tier",
+          stack: "Python 3.11 + KEDA + OpenCV + Multimodal",
+          sla: "p95 < 2.5s per photo audit",
+          cloud: "AKS Pods managed by KEDA",
+          scale: "Scales 0 -> 20 Pods on Redis Queue Depth",
+          desc: "Worker pool evaluating uploaded meter LCD photos. Validates serial numbers, extracts 5-digit kWh consumption readings, and detects discrepancies caused by outsourced meter readers recording false 'Door Lock' average bills.",
+          endpoints: [
+            { method: "POST", path: "/api/v1/audit/ocr-extract", desc: "Submit meter LCD snapshot for verification" }
+          ],
+          resilience: "KEDA queue-based autoscaler prevents API starvation; automatic image sharpening pre-processing."
+        },
+        "mod-postgres": {
+          name: "Azure Database for PostgreSQL 16",
+          system: "Enterprise Persistence Tier",
+          stack: "PostgreSQL 16 Flexible Server",
+          sla: "99.99% Availability / Query p99 < 10ms",
+          cloud: "Azure PaaS Managed",
+          scale: "4 vCPU / 16 GB RAM with Storage Autoscaling",
+          desc: "Central relational datastore maintaining consumer USC records, historical meter readings, Gazette tariff rulebooks, official dispute tickets, and officer resolution audits.",
+          endpoints: [
+            { method: "TCP", path: "urjamitra-pg.postgres.database.azure.com:5432", desc: "SQL connection via SQLAlchemy connection pool" }
+          ],
+          resilience: "Automated daily point-in-time recovery backups (35 days); Zone-redundant standby replica."
+        },
+        "mod-redis": {
+          name: "Azure Cache for Redis",
+          system: "In-Memory Cache Tier",
+          stack: "Redis 7.2 Cluster",
+          sla: "Sub-millisecond latency (< 1ms)",
+          cloud: "Azure Redis Enterprise P1",
+          scale: "6 GB Sharded Cluster",
+          desc: "Caches frequent TGERC calculation results, user session state, and Jev token embeddings. Prevents redundant API calculations during statewide bill distribution rushes.",
+          endpoints: [
+            { method: "TCP", path: "urjamitra-redis.redis.cache.windows.net:6379", desc: "Redis RESP protocol client" }
+          ],
+          resilience: "Dual-node primary/replica with automatic failover."
+        },
+        "mod-sap": {
+          name: "TGSPDCL / TGNPDCL SAP IS-U BAPI",
+          system: "Utility ERP Integration Tier",
+          stack: "SAP NetWeaver / RFC / REST BAPI Gateway",
+          sla: "Utility internal SLA (p95 < 1.8s)",
+          cloud: "Telangana State Data Center (TSDC) On-Prem / ExpressRoute",
+          scale: "Enterprise Clustered Gateway",
+          desc: "Official enterprise utility billing system. UrjaMitra AI pushes validated dispute tickets directly into SAP IS-U BAPI `BAPI_DISPUTE_CREATE`, automatically issuing provisional bill credits and dispatching physical inspection orders.",
+          endpoints: [
+            { method: "POST", path: "https://sap.tgspdcl.gov.in/bapi/dispute/create", desc: "SAP IS-U BAPI official complaint filing" }
+          ],
+          resilience: "Circuit Breaker pattern with Redis dead-letter queue when SAP maintenance windows occur."
+        },
+        "mod-blob": {
+          name: "Meter Evidence Vault (Azure Blob)",
+          system: "Unstructured Object Storage",
+          stack: "Azure Blob Storage / MinIO S3 API",
+          sla: "99.999999999999% Durability",
+          cloud: "Azure GRS Storage Account",
+          scale: "Unlimited Elastic Scale",
+          desc: "Stores tamper-proof meter LCD photos with cryptographic SHA-256 hashes for consumer dispute validation and legal audit evidence.",
+          endpoints: [
+            { method: "HTTPS", path: "https://urjamitravault.blob.core.windows.net/meter-evidence/*", desc: "Direct SAS URL upload & retrieval" }
+          ],
+          resilience: "Geo-redundant cross-region replication (Central India to South India)."
+        }
+      },
+      stories: [
+        {
+          id: "story-gruhajyothi",
+          title: "Story 1: Zero-Bill Gruha Jyothi Verification (<100ms)",
+          badge: "DETERMINISTIC BYPASS",
+          steps: [
+            { node: "node-citizen-web", link: "link-web-appgw", title: "Citizen Inquiry", desc: "Citizen enters USC #100234891 and 165 units: 'Why is my bill Rs. 0?'" },
+            { node: "node-app-gateway", link: "link-appgw-jev", title: "Ingress WAF", desc: "App Gateway verifies TLS 1.3 and validates citizen session rate limits." },
+            { node: "node-jev-router", link: "link-jev-det", title: "Jev Parallel Evaluation", desc: "Jev router computes Choice=BILL_BREAKDOWN, Noul(bypass_llm)=True in 68ms." },
+            { node: "node-tgerc-engine", link: "link-det-pg", title: "System-0 Math", desc: "Python engine calculates Rs 731.90 gross, applies 100% Gruha Jyothi subsidy (<=200 units), net = Rs 0.00." },
+            { node: "node-citizen-web", link: null, title: "Instant Resolution", desc: "Citizen receives Telugu explanation instantly in <100ms without consuming any LLM tokens." }
+          ]
+        },
+        {
+          id: "story-dispute",
+          title: "Story 2: Multimodal Meter OCR Dispute & SAP Sync",
+          badge: "MULTIMODAL DISPUTE",
+          steps: [
+            { node: "node-citizen-web", link: "link-web-appgw", title: "Citizen Dispute Submission", desc: "Citizen uploads meter photo: billed reading 14,890 kWh vs actual meter 14,210 kWh." },
+            { node: "node-jev-router", link: "link-jev-langgraph", title: "Jev Severity Rating", desc: "Jev Score evaluates dispute_severity=8/10, routing to LangGraph Multi-Agent." },
+            { node: "node-langgraph-core", link: "link-lg-vision", title: "LangGraph StateGraph", desc: "Supervisor routes payload to Vision Agent for optical audit." },
+            { node: "node-vision-worker", link: "link-vision-blob", title: "OCR Extraction", desc: "Vision worker extracts LCD reading '14210' and persists image into Blob Storage vault." },
+            { node: "node-langgraph-core", link: "link-lg-sap", title: "SAP IS-U Escalation", desc: "LangGraph Ticket Agent pushes structured ticket URJA-DISP-89F1 to SAP IS-U BAPI." },
+            { node: "node-officer-dash", link: null, title: "Officer Notification", desc: "Section Officer dashboard displays high-severity alert for immediate credit adjustment." }
+          ]
+        },
+        {
+          id: "story-scale",
+          title: "Story 3: 10,000+ Concurrent Requests Burst on AKS",
+          badge: "ELASTIC AUTOSCALING",
+          steps: [
+            { node: "node-citizen-web", link: "link-web-appgw", title: "Bill Dispatch Day Surge", desc: "10,000 concurrent consumers query their bills within a 15-minute window." },
+            { node: "node-app-gateway", link: "link-appgw-jev", title: "Gateway Autoscaling", desc: "Azure Application Gateway v2 scales out from 2 to 8 instances." },
+            { node: "node-langgraph-core", link: "link-lg-redis", title: "Pod Autoscaling (HPA)", desc: "Kubernetes HPA detects memory > 70%, ramping api pods from 3 to 50 replicas." },
+            { node: "node-redis-cache", link: "link-det-pg", title: "Redis Semantic Cache", desc: "92% of redundant tariff inquiries hit Redis cache in <1ms, shielding database." },
+            { node: "node-postgres-db", link: null, title: "Cluster Stability", desc: "AKS Cluster Autoscaler expands from 2 to 8 nodes; zero dropped requests." }
+          ]
+        }
+      ]
+    };
+
+    /* ==========================================================================
+       Interactive Canvas & UI Controller
+       ========================================================================== */
+    let currentZoom = 1.0;
+    let panX = 0;
+    let panY = 0;
+    let isPanning = false;
+    let startX = 0;
+    let startY = 0;
+    let activeStoryInterval = null;
+
+    const viewport = document.getElementById('viewport');
+    const svgElem = document.getElementById('architecture-svg');
+    const zoomLabel = document.getElementById('zoom-label');
+    const inspector = document.getElementById('inspector');
+
+    // Pan and Zoom Listeners
+    viewport.addEventListener('mousedown', (e) => {
+      if (e.target.closest('.node-group') || e.target.closest('.zoom-hud') || e.target.closest('.story-toast') || e.target.closest('.legend-hud')) return;
+      isPanning = true;
+      startX = e.clientX - panX;
+      startY = e.clientY - panY;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isPanning) return;
+      panX = e.clientX - startX;
+      panY = e.clientY - startY;
+      applyTransform();
+    });
+
+    window.addEventListener('mouseup', () => {
+      isPanning = false;
+    });
+
+    viewport.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
+      currentZoom = Math.min(Math.max(0.4, currentZoom * zoomFactor), 2.5);
+      applyTransform();
+    });
+
+    function applyTransform() {
+      svgElem.style.transform = `translate(${panX}px, ${panY}px) scale(${currentZoom})`;
+      svgElem.style.transformOrigin = 'center center';
+      zoomLabel.textContent = `${Math.round(currentZoom * 100)}%`;
+    }
+
+    function zoomIn() {
+      currentZoom = Math.min(2.5, currentZoom * 1.2);
+      applyTransform();
+    }
+
+    function zoomOut() {
+      currentZoom = Math.max(0.4, currentZoom / 1.2);
+      applyTransform();
+    }
+
+    function resetCanvasView() {
+      currentZoom = 1.0;
+      panX = 0;
+      panY = 0;
+      applyTransform();
+      stopStory();
+      clearHighlights();
+    }
+
+    /* Node Inspector Drawer */
+    function inspectNode(moduleId) {
+      const mod = STMR_DATA.modules[moduleId];
+      if (!mod) return;
+
+      document.getElementById('insp-name').textContent = mod.name;
+      document.getElementById('insp-sub').textContent = mod.system;
+      document.getElementById('insp-stack').textContent = mod.stack;
+      document.getElementById('insp-sla').textContent = mod.sla;
+      document.getElementById('insp-cloud').textContent = mod.cloud;
+      document.getElementById('insp-scale').textContent = mod.scale;
+      document.getElementById('insp-desc').textContent = mod.desc;
+      document.getElementById('insp-resilience').textContent = mod.resilience;
+
+      const endpointsList = document.getElementById('insp-endpoints');
+      endpointsList.innerHTML = '';
+      if (mod.endpoints && mod.endpoints.length > 0) {
+        mod.endpoints.forEach(ep => {
+          const methodClass = `method-${ep.method.toLowerCase()}`;
+          const row = document.createElement('div');
+          row.className = 'endpoint-row';
+          row.innerHTML = `
+            <div class="endpoint-top">
+              <span class="method-badge ${methodClass}">${ep.method}</span>
+              <span class="endpoint-path">${ep.path}</span>
+            </div>
+            <div class="endpoint-desc">${ep.desc}</div>
+          `;
+          endpointsList.appendChild(row);
+        });
+      } else {
+        endpointsList.innerHTML = '<div class="endpoint-desc">Internal in-memory / non-network component.</div>';
+      }
+
+      inspector.classList.add('open');
+    }
+
+    function closeInspector() {
+      inspector.classList.remove('open');
+    }
+
+    /* Tab Switching */
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-tab-btn').forEach(el => el.classList.remove('active'));
+
+      const targetTab = document.getElementById(`tab-${tabId}`);
+      if (targetTab) targetTab.classList.add('active');
+
+      const activeBtn = Array.from(document.querySelectorAll('.nav-tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+      if (activeBtn) activeBtn.classList.add('active');
+
+      if (tabId === 'stmr') {
+        renderStmrJson();
+      } else if (tabId === 'catalog') {
+        renderCatalog();
+      } else if (tabId === 'endpoints') {
+        renderEndpointsMatrix();
+      }
+    }
+
+    /* Tier Filtering */
+    function filterTier(tier) {
+      document.querySelectorAll('.chip-filter').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = Array.from(document.querySelectorAll('.chip-filter')).find(b => b.getAttribute('onclick').includes(tier));
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const allNodes = document.querySelectorAll('.node-group');
+      const allPaths = document.querySelectorAll('.link-path');
+
+      if (tier === 'all') {
+        allNodes.forEach(n => n.style.opacity = '1');
+        allPaths.forEach(p => p.style.opacity = '1');
+        return;
+      }
+
+      const tierMap = {
+        'client': ['node-citizen-web', 'node-officer-dash', 'node-ivr-bridge'],
+        'ingress': ['node-app-gateway', 'node-jev-router'],
+        'compute': ['node-tgerc-engine', 'node-langgraph-core', 'node-vision-worker'],
+        'data': ['node-postgres-db', 'node-redis-cache', 'node-blob-vault'],
+        'enterprise': ['node-sap-isu']
+      };
+
+      const visibleNodeIds = tierMap[tier] || [];
+
+      allNodes.forEach(node => {
+        if (visibleNodeIds.includes(node.id)) {
+          node.style.opacity = '1';
+        } else {
+          node.style.opacity = '0.15';
+        }
+      });
+    }
+
+    /* Interactive Story Tracers */
+    function startStory(storyId) {
+      stopStory();
+      clearHighlights();
+
+      const story = STMR_DATA.stories.find(s => s.id === storyId);
+      if (!story) return;
+
+      const toast = document.getElementById('story-toast');
+      const badge = document.getElementById('story-badge');
+      const counter = document.getElementById('story-counter');
+      const title = document.getElementById('story-title');
+      const desc = document.getElementById('story-desc');
+      const bar = document.getElementById('story-bar');
+
+      toast.style.display = 'block';
+      badge.textContent = story.badge;
+
+      let currentStep = 0;
+      const totalSteps = story.steps.length;
+
+      function renderStep() {
+        if (currentStep >= totalSteps) {
+          stopStory();
+          return;
+        }
+
+        clearHighlights();
+        const step = story.steps[currentStep];
+
+        counter.textContent = `STEP ${currentStep + 1} / ${totalSteps}`;
+        title.textContent = step.title;
+        desc.textContent = step.desc;
+        bar.style.width = `${((currentStep + 1) / totalSteps) * 100}%`;
+
+        // Highlight Active Node
+        const nodeElem = document.getElementById(step.node);
+        if (nodeElem) {
+          nodeElem.classList.add('active-step');
+        }
+
+        // Highlight Link Path
+        if (step.link) {
+          const linkElem = document.getElementById(step.link);
+          if (linkElem) {
+            linkElem.classList.add('highlighted');
+          }
+        }
+
+        currentStep++;
+      }
+
+      renderStep();
+      activeStoryInterval = setInterval(renderStep, 3200);
+    }
+
+    function stopStory() {
+      if (activeStoryInterval) {
+        clearInterval(activeStoryInterval);
+        activeStoryInterval = null;
+      }
+      document.getElementById('story-toast').style.display = 'none';
+      clearHighlights();
+    }
+
+    function clearHighlights() {
+      document.querySelectorAll('.node-group').forEach(n => n.classList.remove('active-step'));
+      document.querySelectorAll('.link-path').forEach(p => p.classList.remove('highlighted'));
+    }
+
+    /* Render Secondary Tabs */
+    function renderCatalog() {
+      const azGrid = document.getElementById('catalog-azure-grid');
+      const k8sGrid = document.getElementById('catalog-k8s-grid');
+      
+      azGrid.innerHTML = '';
+      STMR_DATA.cloudInfrastructure.services.forEach(svc => {
+        const card = document.createElement('div');
+        card.className = 'catalog-card';
+        card.innerHTML = `
+          <div class="catalog-card-header">
+            <div>
+              <div class="catalog-card-title">${svc.name}</div>
+              <div class="catalog-card-sub">${svc.category} • ${svc.sku}</div>
+            </div>
+            <div class="catalog-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#38BDF8"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+            </div>
+          </div>
+          <div class="catalog-card-desc">${svc.role}</div>
+          <div style="font-size: 0.75rem; color: #10B981; font-weight: 600;">SLA: ${svc.sla}</div>
+        `;
+        azGrid.appendChild(card);
+      });
+
+      k8sGrid.innerHTML = `
+        <div class="catalog-card">
+          <div class="catalog-card-header">
+            <div>
+              <div class="catalog-card-title">Horizontal Pod Autoscaler (HPA)</div>
+              <div class="catalog-card-sub">CPU > 65% / Memory > 70%</div>
+            </div>
+            <div class="catalog-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="#818CF8"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
+          </div>
+          <div class="catalog-card-desc">Dynamically scales FastAPI multi-agent pods from 3 baseline replicas up to 50 replicas to handle sudden bill-dispatch surges. Evaluated every 15s.</div>
+          <div style="font-size: 0.75rem; color: #38BDF8; font-weight: 600;">Scaling Window: 300s scale-down stabilization</div>
+        </div>
+
+        <div class="catalog-card">
+          <div class="catalog-card-header">
+            <div>
+              <div class="catalog-card-title">KEDA Vision Queue Autoscaler</div>
+              <div class="catalog-card-sub">Redis Queue Trigger (0 -> 20 workers)</div>
+            </div>
+            <div class="catalog-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
+          </div>
+          <div class="catalog-card-desc">Zero-idle container resource consumption. Scales meter OCR worker pods dynamically when citizens upload meter dispute photos into the Redis task queue.</div>
+          <div style="font-size: 0.75rem; color: #38BDF8; font-weight: 600;">Queue Depth: 5 items per worker pod</div>
+        </div>
+
+        <div class="catalog-card">
+          <div class="catalog-card-header">
+            <div>
+              <div class="catalog-card-title">AKS Cluster Autoscaler</div>
+              <div class="catalog-card-sub">2 to 12 VM Nodes (Standard_D4s_v5)</div>
+            </div>
+            <div class="catalog-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="#34D399"><circle cx="12" cy="12" r="10"/></svg></div>
+          </div>
+          <div class="catalog-card-desc">Provisions underlying Azure Virtual Machines when Kubernetes pods enter Pending status during massive state-wide concurrent load spikes.</div>
+          <div style="font-size: 0.75rem; color: #38BDF8; font-weight: 600;">Node Capacity: 12 nodes max (48 vCPU, 192 GB RAM)</div>
+        </div>
+      `;
+    }
+
+    function renderEndpointsMatrix() {
+      const grid = document.getElementById('catalog-endpoints-grid');
+      grid.innerHTML = '';
+
+      Object.values(STMR_DATA.modules).forEach(mod => {
+        if (!mod.endpoints || mod.endpoints.length === 0) return;
+
+        mod.endpoints.forEach(ep => {
+          const card = document.createElement('div');
+          card.className = 'catalog-card';
+          const methodClass = `method-${ep.method.toLowerCase()}`;
+          card.innerHTML = `
+            <div class="catalog-card-header">
+              <div>
+                <span class="method-badge ${methodClass}">${ep.method}</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 700; color: #fff; margin-left: 0.5rem;">${ep.path}</span>
+              </div>
+            </div>
+            <div class="catalog-card-sub" style="margin-bottom: 0.5rem;">Origin: ${mod.name} (${mod.system})</div>
+            <div class="catalog-card-desc">${ep.desc}</div>
+            <div style="font-size: 0.75rem; color: #94A3B8;">SLA: <span style="color:#38BDF8; font-family:'JetBrains Mono'">${mod.sla}</span></div>
+          `;
+          grid.appendChild(card);
+        });
+      });
+    }
+
+    function renderStmrJson() {
+      const display = document.getElementById('stmr-json-display');
+      display.textContent = JSON.stringify(STMR_DATA, null, 2);
+    }
+
+    function copyStmrJson() {
+      navigator.clipboard.writeText(JSON.stringify(STMR_DATA, null, 2)).then(() => {
+        alert("STMR Architecture Intermediate Representation JSON successfully copied to clipboard!");
+      });
+    }
+
+    // Initialize Canvas on load
+    window.addEventListener('DOMContentLoaded', () => {
+      applyTransform();
+    });
+  </script>
+</body>
+</html>
