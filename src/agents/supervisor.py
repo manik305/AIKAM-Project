@@ -119,6 +119,15 @@ async def vision_audit_node(state: UrjaMitraGraphState) -> Dict[str, Any]:
         billed_units=billed_units,
     )
 
+    if state.get("reported_reading") is not None:
+        audit_result["extracted_reading"] = float(state["reported_reading"])
+        if state.get("billed_reading") is not None:
+            discrepancy = abs(float(state["billed_reading"]) - float(state["reported_reading"])) > 5
+        else:
+            discrepancy = (billed_units > 200 and audit_result["extracted_reading"] < 15000)
+        audit_result["discrepancy_detected"] = discrepancy
+        audit_result["recommended_action"] = "TRIGGER_DISPUTE_ESCALATION" if discrepancy else "VERIFIED_CORRECT"
+
     if lang == "te":
         explanation = (
             f"మీటర్ OCR రీడింగ్: {audit_result['extracted_reading']} kWh. "

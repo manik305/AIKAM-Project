@@ -3,89 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UrjaMitra AI | Personalized Electricity Copilot</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>UrjaMitra AI | Redirecting to Modern React Portal...</title>
+    <meta http-equiv="refresh" content="0; url=../dist/index.html">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #0284c7;
-            --accent: #10b981;
-            --bg: #0f172a;
-            --card: rgba(30, 41, 59, 0.7);
-            --border: rgba(255, 255, 255, 0.1);
-            --text: #f8fafc;
+        body {
+            background: #090d16;
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1.5rem;
+            text-align: center;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background: var(--bg); color: var(--text); min-height: 100vh; padding: 2rem; display: flex; flex-direction: column; align-items: center; }
-        header { text-align: center; margin-bottom: 2rem; }
-        h1 { font-size: 2.2rem; color: #38bdf8; }
-        p.subtitle { color: #94a3b8; margin-top: 0.5rem; }
-        .container { width: 100%; max-width: 800px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; backdrop-filter: blur(12px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .badge { display: inline-block; background: rgba(16, 185, 129, 0.2); color: #34d399; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 1rem; border: 1px solid rgba(16, 185, 129, 0.4); }
-        .input-group { margin-bottom: 1.5rem; }
-        label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.95rem; }
-        input, select { width: 100%; padding: 0.75rem 1rem; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border); border-radius: 8px; color: #fff; font-size: 1rem; }
-        button { width: 100%; padding: 0.85rem; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s; font-size: 1rem; }
-        button:hover { background: #0369a1; }
-        .result-box { margin-top: 1.5rem; padding: 1.25rem; background: rgba(15, 23, 42, 0.8); border-radius: 8px; border-left: 4px solid var(--accent); }
+        .card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            backdrop-filter: blur(16px);
+        }
+        .badge {
+            background: rgba(14, 165, 233, 0.2);
+            color: #38bdf8;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid rgba(14, 165, 233, 0.4);
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            font-size: 1.6rem;
+            margin: 0 0 0.5rem 0;
+            background: linear-gradient(to right, #38bdf8, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: white;
+            text-decoration: none;
+            padding: 0.85rem 1.75rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
-    <header>
-        <span class="badge">AIKAM EnergyTech • TGSPDCL & TGNPDCL</span>
+    <div class="card">
+        <span class="badge">AIKAM EnergyTech • React Redesign</span>
         <h1>ఉర్జామిత్ర AI (UrjaMitra AI)</h1>
-        <p class="subtitle">Personalized Vernacular Billing & Dispute Copilot</p>
-    </header>
-    <main class="container">
-        <div class="input-group">
-            <label for="usc">Unique Service Connection (USC) Number</label>
-            <input type="text" id="usc" placeholder="e.g. 100234891" value="100234891">
-        </div>
-        <div class="input-group">
-            <label for="units">Current Billed Units</label>
-            <input type="number" id="units" placeholder="e.g. 165" value="165">
-        </div>
-        <div class="input-group">
-            <label for="lang">Language / భాష</label>
-            <select id="lang">
-                <option value="te">తెలుగు (Telugu)</option>
-                <option value="en">English</option>
-            </select>
-        </div>
-        <button id="calcBtn" onclick="runAnalysis()">బిల్లును విశ్లేషించండి (Analyze Bill)</button>
-
-        <div id="result" class="result-box" style="display: none;">
-            <h3>విశ్లేషణ ఫలితం (Analysis Result)</h3>
-            <p id="explanation" style="margin-top: 0.5rem; color: #cbd5e1;"></p>
-        </div>
-    </main>
-
+        <p>
+            The portal has been upgraded to a unified <strong>React + Tailwind CSS</strong> production application featuring Multimodal Meter OCR, Gazette calculations, and SAP IS-U dispute escalation.
+        </p>
+        <a class="btn" href="../dist/index.html">Open Redesigned React Portal →</a>
+    </div>
     <script>
-        async function runAnalysis() {
-            const units = document.getElementById('units').value;
-            const lang = document.getElementById('lang').value;
-            const resBox = document.getElementById('result');
-            const exp = document.getElementById('explanation');
-
-            try {
-                const response = await fetch('/api/v1/chat/query', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        message: `Explain bill for ${units} units`,
-                        preferred_language: lang,
-                        units: parseFloat(units)
-                    })
-                });
-                const data = await response.json();
-                resBox.style.display = 'block';
-                exp.innerText = data.response.vernacular_explanation;
-            } catch (err) {
-                resBox.style.display = 'block';
-                exp.innerText = (lang === 'te') 
-                    ? `విజయవంతంగా లెక్కించబడింది: ${units} యూనిట్లు. గృహజ్యోతి పథకం వర్తిస్తుంది.` 
-                    : `Evaluated ${units} units successfully. Subsidies verified.`;
-            }
-        }
+        // Automatic redirection to modern build
+        window.location.href = "../dist/index.html";
     </script>
 </body>
 </html>
